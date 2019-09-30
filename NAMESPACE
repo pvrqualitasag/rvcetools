@@ -1,0 +1,3 @@
+useDynLib(rvcetools, .registration=TRUE)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)

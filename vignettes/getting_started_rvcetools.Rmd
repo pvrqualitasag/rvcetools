@@ -1,0 +1,36 @@
+---
+title: "Getting Started with rvcetools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with rvcetools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval=FALSE}
+library(rvcetools)
+```
+
+
+## Disclaimer
+The package `rvcetools` is used to post-process and to work with results from programs that do variance components estimation (vce). Initially, we limit our focus for result files from the program called `VCE`. 
+
+
+## Background
+Variance component estimation is the process of estimating scale parameters such as variance components from data. The parameter estimation uses linear mixed models to define the set of different random effects to which the observed variation should be attributed to. 
+
+Linear mixed effects models recently have gained some popularity outside of the area of animal breeding. But still there are not standard software packages around that can estimate variance components for very large datasets. Therefore, specialized softare programs are used for this task. These programs do not provide any features outside of the parameter estimation functionality. As a consequence of that results from the specialised programs must be read into systems such as R to do bending, plotting or other post-processing tasks. 
+
+
+## Features
+The most central feature is to read in raw outfiles from the different variance components estimation programs. In the most basic case there is only one output file from one analysis. In more advanced analyses, there might be output files from repeated analyses of different sample data sets. 
+
+
+## Datastructures
