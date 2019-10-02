@@ -1,0 +1,51 @@
+---
+title: "Plot results of VCE"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plot results of VCE}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Overview of VCE results
+```{r, include=FALSE}
+psInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+```
+
+
+```{r, include=FALSE}
+# Run function read_vce
+ResultDF <- rvcetools::read_vce4grafics(psInputFile = psInputFile)
+```
+
+```{r, echo=FALSE, out.width=720}
+### # Plot heritability
+rvcetools::plot_h2(psInputFile = ResultDF)
+```
+
+
+```{r, echo=FALSE, out.width=720}
+# Plot genetic correlations
+rvcetools::plot_gencorr(psInputFile = ResultDF)
+```
+
+```{r, echo=FALSE, out.width=720}
+rvcetools::plot_var(psInputFile = ResultDF)
+```
+
+
+# Session Info
+```{r}
+sessionInfo()
+```
+
+# Latest Update
+`r paste(Sys.time(),paste0("(", Sys.info()[["user"]],")" ))`

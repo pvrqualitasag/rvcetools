@@ -3,8 +3,8 @@ title: "Getting Started with rvcetools"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with rvcetools}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, include = FALSE}
@@ -34,3 +34,47 @@ The most central feature is to read in raw outfiles from the different variance 
 
 
 ## Datastructures
+
+
+## Functionalities
+When it comes to processing outputs of variance components estimation, it is useful to transform variance-covariance matrices into correlation matrices and the other way around. In most practical calses the matrices are small and hence a solution via iterative loops should be ok. An example is shown here
+
+```{r}
+(mat_vcov <- matrix(c(104,75,18,75,56,12,18,12,7), nrow = 3, byrow = TRUE))
+```
+
+Convert this into a matrix of correlations is done with the following two nested loops
+
+```{r}
+n_nr_trait <- nrow(mat_vcov)
+mat_cor <- diag(x = 0.5, nrow = n_nr_trait)
+for (i in 1:(n_nr_trait-1)){
+  for (j in (i+1):n_nr_trait){
+    mat_cor[i,j] <- mat_vcov[i,j] / sqrt(mat_vcov[i,i] * mat_vcov[j,j])
+  }
+}
+(mat_cor <- mat_cor + t(mat_cor))
+```
+
+
+The reverse conversion needs also the standard deviations or the variances as input
+
+```{r}
+mat_comp_cov <- diag(x = 0, nrow = n_nr_trait)
+vec_var <- diag(mat_vcov)
+for (i in 1:(n_nr_trait-1)){
+  for (j in (i+1):n_nr_trait){
+    mat_comp_cov[i,j] <- mat_cor[i,j] * sqrt(vec_var[i] * vec_var[j])
+  }
+}
+mat_comp_cov <- mat_comp_cov + t(mat_comp_cov)
+diag(mat_comp_cov) <- vec_var
+mat_comp_cov
+```
+
+Compare this to the function `cov2cor``
+
+```{r}
+cov2cor(mat_vcov)
+```
+
