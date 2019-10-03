@@ -1,0 +1,7 @@
+pandoc: 2.3.1
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  getting_started_rvcetools: getting_started_rvcetools.html
+  plots_vce: plots_vce.html
+

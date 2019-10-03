@@ -1,5 +1,7 @@
 ---
 title: "Getting Started with rvcetools"
+author: Peter von Rohr
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with rvcetools}
