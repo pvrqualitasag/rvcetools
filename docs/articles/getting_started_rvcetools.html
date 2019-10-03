@@ -109,7 +109,7 @@
 <a href="#package-input" class="anchor"></a>Package Input</h2>
 <p>Currently the package can read VCE results from .csv files which are in a pre-defined format. For testing an example input file is included in the package available.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">(s_input &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"VCE_results.csv"</span>, <span class="dt">package =</span> <span class="st">"rvcetools"</span>))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "/private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/RtmpQLo43y/temp_libpath33e8119e1481/rvcetools/extdata/VCE_results.csv"</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "/private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/Rtmp1qi2Cd/temp_libpath3d3c342e66f7/rvcetools/extdata/VCE_results.csv"</span></a></code></pre></div>
 <p>The input data can be read using the function</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">(tbl_vce &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_vce.html">read_vce</a></span>(<span class="dt">psInputFile =</span> s_input))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6,414 x 9</span></a>
