@@ -6,7 +6,9 @@ Tools to work with results from variance components estimation
 The package can only be installed from `GitHub` using
 
 ```
+# check whether devtools are available
 # if (!'devtools' %in% installed.packages()) install.packages('devtools')
+# install the package
 devtools::install_github(repo = 'pvrqualitasag/rvcetools')
 ```
 
