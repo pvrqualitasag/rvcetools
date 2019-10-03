@@ -21,7 +21,7 @@ psInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 ```
 
 
-```{r, include=FALSE}
+```{r, include=FALSE, message=FALSE}
 # Run function read_vce
 ResultDF <- rvcetools::read_vce4grafics(psInputFile = psInputFile)
 ```

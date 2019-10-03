@@ -2,11 +2,23 @@
 % Please edit documentation in R/ReadVCE.R
 \name{read_vce}
 \alias{read_vce}
-\title{Reading VCE results}
+\title{Reading VCE Results From CSV File}
 \usage{
-read_vce(psInputFile, pbLog = FALSE)
+read_vce(psInputFile, pbLog = FALSE, plogger = NULL)
+}
+\arguments{
+\item{psInputFile}{name of the input file in csv-format}
+
+\item{pbLog}{flag indicating whether logging should be done}
+
+\item{plogger}{logger object from outside}
 }
 \description{
-First attempt to read variance component estimation (VCE) from a csv-file
-and storing the input in tibble
+First attempt to read variance component estimation (VCE) results 
+from a csv-file and storing them in tibble.
+}
+\examples{
+# specify input file
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+tbl_vce <- read_vce(psInputFile = sInputFile)
 }
