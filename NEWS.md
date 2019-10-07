@@ -1,6 +1,7 @@
 # rvcetools 0.0.4
 
 * Fixed bugs with rounding. Removed formatted output with restricting the number of digits from the output. The only formating that is done in the output is setting the scientific format to `FALSE`. 
+* Suppressed the warnings caused by splitting the input into two traits where in some records only one trait was present.
 
 # rvcetools 0.0.3
 
