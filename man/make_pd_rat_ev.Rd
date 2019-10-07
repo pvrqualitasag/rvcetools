@@ -4,12 +4,14 @@
 \alias{make_pd_rat_ev}
 \title{Bending of Matrix A with Ratio}
 \usage{
-make_pd_rat_ev(A, pn_max_ratio)
+make_pd_rat_ev(A, pn_max_ratio, pnDigits = NA)
 }
 \arguments{
 \item{A}{input matrix}
 
 \item{pn_max_ratio}{max ratio}
+
+\item{pnDigits}{number of digits to be rounded to}
 }
 \value{
 Bended positive-definite matrix A with ratio

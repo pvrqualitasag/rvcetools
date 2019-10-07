@@ -173,11 +173,11 @@ check_transform_positivedefinit <- function(psInputFile,
       ### # Min one eigenvalue is negative, so  which function is choosen
       if(psOptionRatio == TRUE){
         # Run function make_pd_rat_ev with parameter psRatio
-          PDresultList[[Z]] <- make_pd_rat_ev(psInputFile[[Z]],psRatio)
+          PDresultList[[Z]] <- make_pd_rat_ev(psInputFile[[Z]], pn_max_ratio = psRatio, pnDigits = pnDigits)
         }else{
         # Run function makePD2
         # Optimized function of Schaeffer
-          PDresultList[[Z]] <- makePD2(psInputFile[[Z]], pnDigits)
+          PDresultList[[Z]] <- makePD2(psInputFile[[Z]], pnDigits = pnDigits)
       }
     }
   }
