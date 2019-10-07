@@ -43,7 +43,9 @@ makePD2 <- function(A, pnDigits = NA){
     if (min(eigen(result_mat, only.values = TRUE)$values) < 0)
       stop(" * ERROR: makePD2: result matrix not positive definite after rounding")
   }
-    
+  # add row and col-names back to result matrix
+  colnames(result_mat) <- colnames(A)
+  rownames(result_mat) <- rownames(A)
   return(result_mat)
 }
 
@@ -77,10 +79,11 @@ makePD2 <- function(A, pnDigits = NA){
 #' ratio between largest and smallest eigenvalue.
 #' @param A input matrix
 #' @param pn_max_ratio max ratio
+#' @param pnDigits number of digits to be rounded to
 #'
 #' @return Bended positive-definite matrix A with ratio
 #' @export make_pd_rat_ev
-make_pd_rat_ev <- function(A, pn_max_ratio){
+make_pd_rat_ev <- function(A, pn_max_ratio, pnDigits = NA){
   # get eigenvalue/eigenvector decomposition
   D <- eigen(A)
   # assign eigenvectors and eigen values to separate variables
@@ -111,8 +114,19 @@ make_pd_rat_ev <- function(A, pn_max_ratio){
   n_range_rat <- n_corr_range / n_out_range
   # correct according to the range ratios
   vec_eval[vec_idx_ev_out] <- n_last_ev_not_corrected - (n_last_ev_not_corrected - vec_eval[vec_idx_ev_out]) * n_range_rat
+  # reconstruct matrix
+  if (is.na(pnDigits)){
+    result_mat <-mat_evec %*% diag(vec_eval) %*% t(mat_evec)
+  } else {
+    result_mat <- round(mat_evec %*% diag(vec_eval) %*% t(mat_evec), digits = pnDigits)
+    if (min(eigen(result_mat, only.values = TRUE)$values) < 0)
+      stop(" * ERROR: make_pd_rat_ev: result matrix not positive definite after rounding")
+  }
+  # add row and col-names back to result matrix
+  colnames(result_mat) <- colnames(A)
+  rownames(result_mat) <- rownames(A)
   # return reconstructed matrix
-  return(mat_evec %*% diag(vec_eval) %*% t(mat_evec))
+  return(result_mat)
 
 }
 
@@ -148,8 +162,13 @@ check_transform_positivedefinit <- function(psInputFile,
     V <- D$values
     # determine if negative eigenvalues are available
     if(sum(V < 0) == 0){
-      ### # no negative eigenvalues are availabe
-      PDresultList[[Z]] <- psInputFile[[Z]]
+      ### # no negative eigenvalues are available, do rounding if required
+      if (is.na(pnDigits)){
+        PDresultList[[Z]] <- psInputFile[[Z]]        
+      } else {
+        PDresultList[[Z]] <- round(psInputFile[[Z]], digits = pnDigits)
+      }
+
     }else{
       ### # Min one eigenvalue is negative, so  which function is choosen
       if(psOptionRatio == TRUE){
