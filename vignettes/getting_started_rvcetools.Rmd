@@ -140,11 +140,10 @@ In livestock breeding, variance components are required as input to predict bree
 
 ```{r exampleoutput, message=FALSE}
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
-ResultPD <- positivedefinit(psInputFile = sInputFile)
+ResultPD <- positivedefinit(psInputFile = sInputFile, pnDigits = 3)
 sMix99File <- file.path(tempdir(), 'mix99_output.txt')
 create_parameter_varCovar_mix99(pl_mat       = ResultPD,
-                                psOutputFile = sMix99File,
-                                pnDigits     = 3)
+                                psOutputFile = sMix99File)
 vec_result <- readLines(con = file(sMix99File))
 file.remove(sMix99File)
 head(vec_result)
@@ -155,7 +154,7 @@ What is shown in the above code-junk can be done in one step using the function 
 ```{r onestatement, message=FALSE}
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 sMix99File <- file.path(tempdir(), 'mix99_output.txt')
-parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File)
+parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File, pnDigits = 3)
 vec_result <- readLines(con = file(sMix99File))
 file.remove(sMix99File)
 head(vec_result)

@@ -12,7 +12,6 @@
 #' @export create_parameter_varCovar_mix99
 create_parameter_varCovar_mix99 <- function(pl_mat,
                                             psOutputFile,
-                                            pnDigits,
                                             pbLog = FALSE){
 
   # Prepare the different input to build the parameter file
@@ -38,7 +37,7 @@ create_parameter_varCovar_mix99 <- function(pl_mat,
   for(Z in vec_random_effect_order){
     for(i in 1:n_nr_trait){
       for(j in i:n_nr_trait){
-        cat(Z, vec_trait_name[i], vec_trait_name[j], format(pl_mat[[Z]][[i,j]], scientific = FALSE, nsmall = pnDigits), file = psOutputFile, append = TRUE)
+        cat(Z, vec_trait_name[i], vec_trait_name[j], format(pl_mat[[Z]][[i,j]], scientific = FALSE), file = psOutputFile, append = TRUE)
         cat("\n", sep= "", file = psOutputFile, append = TRUE)
       }
     }
@@ -74,20 +73,20 @@ create_parameter_varCovar_mix99 <- function(pl_mat,
 #' parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = 'par_varCovar_mix99.txt')
 #' }
 #' @export parameter_varCovar_mix99
-parameter_varCovar_mix99 <- function(psInputFile   = psInputFile,
+parameter_varCovar_mix99 <- function(psInputFile,
                                      psOptionRatio = FALSE,
                                      psRatio       = 100,
-                                     psOutputFile  = psOutputFile,
-                                     pnDigits      = 3){
+                                     psOutputFile,
+                                     pnDigits      = NA){
 
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
-  ResultPD <- positivedefinit(psInputFile,
-                              psOptionRatio,
-                              psRatio)
+  ResultPD <- positivedefinit(psInputFile   = psInputFile,
+                              psOptionRatio = psOptionRatio,
+                              psRatio       = psRatio,
+                              pnDigits      = pnDigits)
 
   ### # Build Parameter-File in txt-Format with Variances for Mix99
   create_parameter_varCovar_mix99(pl_mat   = ResultPD,
-                                  psOutputFile = psOutputFile,
-                                  pnDigits     = pnDigits)
+                                  psOutputFile = psOutputFile)
 
 }
