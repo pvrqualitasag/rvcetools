@@ -9,9 +9,9 @@ positivedefinit(psInputFile, psOptionRatio = FALSE, psRatio = 100)
 \arguments{
 \item{psInputFile}{input csv-file}
 
-\item{psOptionRatio}{TRUE or FALSE}
+\item{psOptionRatio}{TRUE or FALSE (default) to indicate whether bending should be done based on ratio of largest to smallest eigenvalue}
 
-\item{psRatio}{number}
+\item{psRatio}{maximum ratio between largest and smallest eigenvalue. Only relevant, if psOptionRatio == TRUE}
 }
 \description{
 Read csv-file of the variance component estimates and

@@ -33,6 +33,7 @@ create_parameter_varCovar_mix99 <- function(psInputFile,
 
   # Build Variance/Covariance Parameter-File for Mix99
   n_nr_trait <- dim(psInputFile[[1]])[1]
+  vec_trait_name <- rownames(psInputFile[[1]])
   idx_rand_eff <- 1
   for(Z in vec_random_effect_order){
     for(i in 1:n_nr_trait){
@@ -81,8 +82,8 @@ parameter_varCovar_mix99 <- function(psInputFile   = psInputFile,
 
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
   ResultPD <- positivedefinit(psInputFile,
-                                              psOptionRatio,
-                                              psRatio)
+                              psOptionRatio,
+                              psRatio)
 
   ### # Build Parameter-File in txt-Format with Variances for Mix99
   create_parameter_varCovar_mix99(psInputFile  = ResultPD,

@@ -3,10 +3,11 @@
 #' date:  "`r Sys.Date()`"
 #' ---
 
-#' @title Constructing a matrix
+#' @title Convert Variance-Covariance Stored in Tibble to a List of matrices
 #'
 #' @description
-#' Storing the variance and covariance in a list
+#' Storing the variance and covariances in the tibble read from the input file
+#' in a list of matrices.
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter
@@ -16,7 +17,7 @@
 #' @importFrom dplyr group_by
 #' @export build_matrix
 build_matrix <- function(psInputFile,
-                              pbLog = FALSE){
+                         pbLog = FALSE){
 
   ### # Build Matrix
   # Get variance and covariance informations in a tibble

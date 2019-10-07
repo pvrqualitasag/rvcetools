@@ -2,12 +2,13 @@
 % Please edit documentation in R/Build_Matrix.R
 \name{build_matrix}
 \alias{build_matrix}
-\title{Constructing a matrix}
+\title{Convert Variance-Covariance Stored in Tibble to a List of matrices}
 \usage{
 build_matrix(psInputFile, pbLog = FALSE)
 }
 \description{
-Storing the variance and covariance in a list
+Storing the variance and covariances in the tibble read from the input file
+in a list of matrices.
 }
 \details{
 ---

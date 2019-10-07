@@ -2,11 +2,20 @@
 % Please edit documentation in R/MakePD.R
 \name{check_transform_positivedefinit}
 \alias{check_transform_positivedefinit}
-\title{Bending of Matrix for Different Random Effects}
+\title{Bending of a List of Matrices for Different Random Effects}
 \usage{
 check_transform_positivedefinit(psInputFile, psOptionRatio, psRatio,
   pbLog = FALSE)
 }
+\arguments{
+\item{psInputFile}{}
+
+\item{psOptionRatio}{}
+
+\item{psRatio}{}
+
+\item{pbLog}{}
+}
 \description{
-Bending of Matrix for Different Random Effects
+
 }

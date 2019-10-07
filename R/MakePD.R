@@ -35,7 +35,15 @@ makePD2 <- function(A){
   # correct the negative eigenvalues
   V[which(V < 0)] <- p * (sr - vec_neg_ev) * (sr - vec_neg_ev) / wr
   # reconstruct A from eval-evec-decomposition and return
-  return(U %*% diag(V) %*% t(U))
+  if (is.na(pnDigits)){
+    result_mat <- U %*% diag(V) %*% t(U)
+  } else {
+    result_mat <- round(U %*% diag(V) %*% t(U), digits = pnDigits)
+    if (min(eigen(result_mat, only.values = TRUE)$values) < 0)
+      stop(" * ERROR: makePD2: result matrix not positive definite after rounding")
+  }
+    
+  return(result_mat)
 }
 
 
@@ -109,14 +117,23 @@ make_pd_rat_ev <- function(A, pn_max_ratio){
 
 
 
-#' @title Bending of Matrix for Different Random Effects
+#' @title Bending of a List of Matrices for Different Random Effects
+#' 
+#' @description 
+#' 
+#' 
+#' @param psInputFile 
+#' @param psOptionRatio 
+#' @param psRatio 
+#' @param pbLog 
 #'
 #' @export check_transform_positivedefinit
 check_transform_positivedefinit <- function(psInputFile,
                                             psOptionRatio,
                                             psRatio,
                                             pbLog = FALSE){
-
+ 
+  ### # get names of random effects from names of list of input variance-covariance matrices
   vec_randomEffect_name <- names(psInputFile)
   ### # Check if matrix is positive definite
   PDresultList <- NULL

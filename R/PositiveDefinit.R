@@ -20,13 +20,13 @@
 #' ratio between largest and smallest eigenvalue.
 #'
 #' @param psInputFile input csv-file
-#' @param psOptionRatio TRUE or FALSE
-#' @param psRatio number
+#' @param psOptionRatio TRUE or FALSE (default) to indicate whether bending should be done based on ratio of largest to smallest eigenvalue
+#' @param psRatio maximum ratio between largest and smallest eigenvalue. Only relevant, if psOptionRatio == TRUE
 #'
 #' @export positivedefinit
 positivedefinit <- function(psInputFile,
                             psOptionRatio = FALSE,
-                            psRatio = 100){
+                            psRatio       = 100){
 
   ## # Run function read_vce
   ResultTibble <- read_vce(psInputFile = psInputFile)
@@ -35,9 +35,9 @@ positivedefinit <- function(psInputFile,
   ResultMatrixAsList <- build_matrix(psInputFile = ResultTibble)
 
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
-  ResultPD <- check_transform_positivedefinit(psInputFile = ResultMatrixAsList,
-                                                               psOptionRatio = psOptionRatio,
-                                                               psRatio = psRatio)
+  ResultPD <- check_transform_positivedefinit(psInputFile   = ResultMatrixAsList,
+                                              psOptionRatio = psOptionRatio,
+                                              psRatio       = psRatio)
   return(ResultPD)
 
 }
