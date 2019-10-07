@@ -10,13 +10,13 @@
 #' @title Build Parameter with Variances and Covariances for Mix99
 #'
 #' @export create_parameter_varCovar_mix99
-create_parameter_varCovar_mix99 <- function(ptbl_input,
+create_parameter_varCovar_mix99 <- function(pl_mat,
                                             psOutputFile,
                                             pnDigits,
                                             pbLog = FALSE){
 
   # Prepare the different input to build the parameter file
-  vec_randomEffect_name <- names(ptbl_input)
+  vec_randomEffect_name <- names(pl_mat)
   n_nr_randomEffect <- length(vec_randomEffect_name)
   # Check if in inputFile the random effects animal and residual are present
   vec_random_effect_req <- c("animal", "residual")
@@ -32,13 +32,13 @@ create_parameter_varCovar_mix99 <- function(ptbl_input,
     file.remove(psOutputFile)
 
   # Build Variance/Covariance Parameter-File for Mix99
-  n_nr_trait <- dim(ptbl_input[[1]])[1]
-  vec_trait_name <- rownames(ptbl_input[[1]])
+  n_nr_trait <- dim(pl_mat[[1]])[1]
+  vec_trait_name <- rownames(pl_mat[[1]])
   idx_rand_eff <- 1
   for(Z in vec_random_effect_order){
     for(i in 1:n_nr_trait){
       for(j in i:n_nr_trait){
-        cat(Z, vec_trait_name[i], vec_trait_name[j], format(ResultPD[[Z]][[i,j]], scientific = FALSE, nsmall = pnDigits), file = psOutputFile, append = TRUE)
+        cat(Z, vec_trait_name[i], vec_trait_name[j], format(pl_mat[[Z]][[i,j]], scientific = FALSE, nsmall = pnDigits), file = psOutputFile, append = TRUE)
         cat("\n", sep= "", file = psOutputFile, append = TRUE)
       }
     }
@@ -86,7 +86,7 @@ parameter_varCovar_mix99 <- function(psInputFile   = psInputFile,
                               psRatio)
 
   ### # Build Parameter-File in txt-Format with Variances for Mix99
-  create_parameter_varCovar_mix99(psInputFile  = ResultPD,
+  create_parameter_varCovar_mix99(pl_mat   = ResultPD,
                                   psOutputFile = psOutputFile,
                                   pnDigits     = pnDigits)
 
