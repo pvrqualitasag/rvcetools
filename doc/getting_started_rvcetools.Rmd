@@ -1,0 +1,136 @@
+---
+title: "Getting Started with rvcetools"
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with rvcetools}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval=TRUE}
+library(rvcetools)
+```
+
+
+## Disclaimer
+The package `rvcetools` is used to post-process and to work with results from programs that do variance components estimation (VCE). Initially, we limit our focus for result files from the program called `vce`. 
+
+
+## Background
+Variance component estimation is the process of estimating scale parameters such as variance components from data. The parameter estimation uses linear mixed models to define the set of different random effects to which the observed variation should be attributed to. 
+
+Linear mixed effects models recently have gained some popularity outside of the area of animal breeding. But still there are not standard software packages around that can estimate variance components for very large datasets. Therefore, specialized softare programs are used for this task. These programs do not provide any features outside of the parameter estimation functionality. As a consequence of that results from the specialised programs must be read into systems such as R to do bending, plotting or other post-processing tasks. 
+
+
+## Features
+The most central feature is to read in raw outfiles from the different variance components estimation programs. In the most basic case there is only one output file from one analysis. In more advanced analyses, there might be output files from repeated analyses of different sample data sets. 
+
+
+## Package Input
+Currently the package can read VCE results from .csv files which are in a pre-defined format. For testing an example input file is included in the package available.
+
+```{r}
+(s_input <- system.file("extdata","VCE_results.csv", package = "rvcetools"))
+```
+
+The input data can be read using the function
+
+```{r read_vce, message=FALSE}
+(tbl_vce <- read_vce(psInputFile = s_input))
+```
+
+
+## Conversion of Correlation to Covariance
+When it comes to processing outputs of variance components estimation, it is useful to transform variance-covariance matrices into correlation matrices and the other way around. In most practical calses the matrices are small and hence a solution via iterative loops should be ok. An example is shown here
+
+```{r}
+(mat_vcov <- matrix(c(104,75,18,75,56,12,18,12,7), nrow = 3, byrow = TRUE))
+```
+
+In `base`-R there is the function `cov2cor` which does this. 
+
+```{r}
+cov2cor(mat_vcov)
+```
+
+The package contains a wrapper that does the same thing
+
+```{r}
+(mat_cor <- cov_to_cor(mat_vcov))
+```
+
+In rare cases there might also be the interest of going the other way round. Hence given a correlation matrix and a vector of variances, we might be interested in re-building the original variance-covariance matrix. This is done with 
+
+```{r}
+cor_to_cov(pmat_cor = mat_cor, pvec_var = diag(mat_vcov))
+```
+
+
+## Bending
+When building variance-covariance matrices from parameter estimation results, one problem might be that the resulting matrix is not positive definite. One solution to that problem might be a technique called bending. There are different approaches how bending can be implemented. An first intuitive approach is to decrease all off-diagonal elements by a small amount and to increase the diagonal elements also by some small quantity. This is done iteratively until the smallest eigenvalue of the resulting variance-covariance matrix is larger than some specified lower limit. 
+
+Alternatively, the eigenvalues below a certain threshold can be projected above that threshold leaving the ratios of the distances between the eigenvalues constant. This is implemented in the function `makePD2()`. Hence for a non-positive definite matrix containing estimation results, the following steps can be used to bend the matrix.
+
+```{r}
+(mat_npd <- matrix(data = c(100, 80, 20, 6, 80, 50, 10, 2, 20, 10, 6, 1, 6, 2, 1, 1), nrow = 4))
+```
+
+Based on the eigenvalues `mat_npd` is non-positive definite
+
+```{r}
+eigen(mat_npd, only.values = TRUE)$values
+```
+
+The matrix `mat_npd` can be bent using 
+
+```{r}
+(mat_bent1 <- makePD2(A = mat_npd))
+```
+
+As can be seen, the eigenvalues of the bent matrix are all positive, but the ratio between the smallest and the largest eigenvalue is big. 
+
+```{r}
+eigen(mat_bent1, only.values = TRUE)$values
+```
+
+If this ratio is of any concern, the second bending function `make_pd_rat_ev()` can be used which allows for the specification of a maximum ratio between smallest and largest eigenvalue.
+
+```{r}
+(mat_bent2 <- make_pd_rat_ev(A = mat_npd, pn_max_ratio = 100))
+```
+
+Leading to a much smaller range of eigenvalues as can be seen from the output below.
+
+```{r}
+eigen(mat_bent2, only.values = TRUE)$values
+```
+
+### Alternatives
+The `Matrix` package contains the function `nearPD` which according to its helpfile computes the nearest positive definite matrix. This function allows the specification of many more parameters. But from our experiences this can lead to the large change in a single matrix element. Furthermore, it is unclear whether it is possible to change more than one eigenvalue. 
+
+```{r}
+Matrix::nearPD(mat_npd)
+```
+
+
+## Input for MiX99
+In our genetic routine analysis, we use the software package `MiX99` to predict breeding values. `MiX99` requires  as input  variance-covariance matrices for each random effect in the model. The function `parameter_varCovar_mix99` in this package can be used to produce the variance-covariance matrices in the format required by `MiX99`. 
+
+
+## Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+
+
