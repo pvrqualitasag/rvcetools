@@ -166,7 +166,7 @@ Using the bending approach that changes the ratios of the eigenvalues is shown b
 ```{r bendratio, message=FALSE}
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 sMix99File <- file.path(tempdir(), 'mix99_output.txt')
-parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File, psOptionRatio = TRUE, psRatio = 10)
+parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File, psOptionRatio = TRUE, psRatio = 100)
 vec_result <- readLines(con = file(sMix99File))
 file.remove(sMix99File)
 head(vec_result)

@@ -4,9 +4,8 @@
 \alias{parameter_varCovar_mix99}
 \title{Parameter File for Mix99}
 \usage{
-parameter_varCovar_mix99(psInputFile = psInputFile,
-  psOptionRatio = FALSE, psRatio = 100, psOutputFile = psOutputFile,
-  pnDigits = 3)
+parameter_varCovar_mix99(psInputFile, psOptionRatio = FALSE,
+  psRatio = 100, psOutputFile, pnDigits = NA)
 }
 \arguments{
 \item{psInputFile}{input csv-file}
