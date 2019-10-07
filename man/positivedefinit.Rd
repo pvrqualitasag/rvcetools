@@ -13,6 +13,8 @@ positivedefinit(psInputFile, psOptionRatio = FALSE, psRatio = 100,
 \item{psOptionRatio}{TRUE or FALSE (default) to indicate whether bending should be done based on ratio of largest to smallest eigenvalue}
 
 \item{psRatio}{maximum ratio between largest and smallest eigenvalue. Only relevant, if psOptionRatio == TRUE}
+
+\item{pnDigits}{number of digits to which result will be rounded to}
 }
 \description{
 Read csv-file of the variance component estimates and

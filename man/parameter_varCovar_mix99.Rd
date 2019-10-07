@@ -15,6 +15,8 @@ parameter_varCovar_mix99(psInputFile, psOptionRatio = FALSE,
 \item{psRatio}{number}
 
 \item{psOutputFile}{output txt-file}
+
+\item{pnDigits}{number of digits to be rounded to}
 }
 \description{
 Read csv-file of the variance component estimates and construct

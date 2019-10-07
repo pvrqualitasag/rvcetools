@@ -22,8 +22,9 @@ build_matrix <- function(psInputFile,
   ### # Build Matrix
   # Get variance and covariance informations in a tibble
   tbl_varCovar <- psInputFile %>% filter(type == "variance" | type == "covariance") %>% select(type,traits,random_effect,estimate)
-  # Split traits into trait 1 and trait 2
-  tbl_varCovar <- tbl_varCovar %>% separate(traits, c('trait', 'surrogate'), remove = FALSE)
+  # Split traits into trait 1 and trait 2, some records have only 1 trait, which causes `separate()` to issue a warning which 
+  # is suppressed here
+  suppressWarnings( tbl_varCovar <- tbl_varCovar %>% separate(traits, c('trait', 'surrogate'), remove = FALSE) )
   tbl_varCovar[is.na(tbl_varCovar$surrogate),'surrogate'] <- tbl_varCovar[is.na(tbl_varCovar$surrogate),'trait']
   # Change order of trait and surrogate based on alphabetic order of them
   idx <- tbl_varCovar[,'trait'] > tbl_varCovar[,'surrogate']

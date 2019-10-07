@@ -6,6 +6,13 @@
 \usage{
 create_parameter_varCovar_mix99(pl_mat, psOutputFile, pbLog = FALSE)
 }
+\arguments{
+\item{pl_mat}{list of matrices}
+
+\item{psOutputFile}{output file to which MiX99 parameters should be written to}
+
+\item{pbLog}{flag for logging}
+}
 \description{
 Build Parameter with Variances and Covariances for Mix99
 }
