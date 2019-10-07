@@ -12,6 +12,9 @@ The package can only be installed from `GitHub` using
 devtools::install_github(repo = 'pvrqualitasag/rvcetools')
 ```
 
+## GitHub Repository
+The repository on GitHub is available at: https://github.com/pvrqualitasag/rvcetools
+
 
 ## Background
 One of the first steps in the development of a new genetic analysis routine for a new trait is the estimation of 

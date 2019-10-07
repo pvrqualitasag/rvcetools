@@ -14,3 +14,4 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
+URL: https://pvrqualitasag.github.io/rvcetools/index.html, https://github.com/pvrqualitasag/rvcetools
