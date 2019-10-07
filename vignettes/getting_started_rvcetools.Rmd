@@ -34,6 +34,19 @@ Linear mixed effects models recently have gained some popularity outside of the 
 ## Features
 The most central feature is to read in raw outfiles from the different variance components estimation programs. In the most basic case there is only one output file from one analysis. In more advanced analyses, there might be output files from repeated analyses of different sample data sets. 
 
+The package `rvcetools` contains a number of features already and they will hopefully grow over time. For the purpose of a genetic evaluation the most important feature is to read estimated variance components and to produce an input file for the software program that does the prediction of breeding values. This function is called `parameter_varCovar_mix99()`. All it needs is an input file and an output file and all steps in between will be done automatically. The functions envolved in all the steps are shown in the dependency graph below. 
+
+```{r codedependsgraph, echo=FALSE}
+if (require(CodeDepends)){
+  gg <- CodeDepends::makeCallGraph("package:rvcetools")
+  if(require(Rgraphviz)) {
+    gg = layoutGraph(gg, layoutType = "circo")
+    graph.par(list(nodes = list(fontsize=55)))
+    renderGraph(gg) ## could also call plot directly
+  } 
+}
+```
+
 
 ## Package Input
 Currently the package can read VCE results from .csv files which are in a pre-defined format. For testing an example input file is included in the package available.
@@ -122,6 +135,30 @@ Matrix::nearPD(mat_npd)
 ```
 
 
+## Input For MiX99
+In livestock breeding, variance components are required as input to predict breeding values. The software package MiX99 is used to predict breeding values. In this package `rvcetools`, the function `create_parameter_varCovar_mix99()` creates output that can be used as input for MiX99. The function `create_parameter_varCovar_mix99()` writes the post-processed variance components output in a tabular form to a file. The format of this output can be shown below.
+
+```{r exampleoutput}
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+ResultPD <- positivedefinit(psInputFile = sInputFile)
+sMix99File <- file.path(tempdir(), 'mix99_output.txt')
+create_parameter_varCovar_mix99(pl_mat   = ResultPD,
+                                psOutputFile = sMix99File )
+vec_result <- readLines(con = file(sMix99File))
+file.remove(sMix99File)
+head(vec_result)
+```
+
+What is shown in the above code-junk can be done in one step using the function `parameter_varCovar_mix99()` with an input and an output file as parameter.
+
+
+# Session Info
+```{r}
+sessionInfo()
+```
+
+# Latest Update
+`r paste(Sys.time(),paste0("(", Sys.info()[["user"]],")" ))`
 
 
 
