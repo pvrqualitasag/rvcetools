@@ -29,13 +29,13 @@ positivedefinit <- function(psInputFile,
                             psRatio = 100){
 
   ## # Run function read_vce
-  ResultTibble <- PositiveDefinit::read_vce(psInputFile = psInputFile)
+  ResultTibble <- read_vce(psInputFile = psInputFile)
 
   ### # Run function build_matrix
-  ResultMatrixAsList <- PositiveDefinit::build_matrix(psInputFile = ResultTibble)
+  ResultMatrixAsList <- build_matrix(psInputFile = ResultTibble)
 
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
-  ResultPD <- PositiveDefinit::check_transform_positivedefinit(psInputFile = ResultMatrixAsList,
+  ResultPD <- check_transform_positivedefinit(psInputFile = ResultMatrixAsList,
                                                                psOptionRatio = psOptionRatio,
                                                                psRatio = psRatio)
   return(ResultPD)
