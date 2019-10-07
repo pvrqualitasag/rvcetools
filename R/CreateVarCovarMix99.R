@@ -36,7 +36,8 @@ create_parameter_varCovar_mix99 <- function(psInputFile,
   for(Z in vec_random_effect_order){
     for(i in 1:n_nr_trait){
       for(j in i:n_nr_trait){
-        cat(idx_rand_eff, i, j, format(psInputFile[[Z]][[i,j]], scientific = FALSE), "\n", file = psOutputFile, append = TRUE)
+        cat(Z, vec_trait_name[i], vec_trait_name[j], format(ResultPD[[Z]][[i,j]], scientific = FALSE), file = psOutputFile, append = TRUE)
+        cat("\n", sep= "", file = psOutputFile, append = TRUE)
       }
     }
     idx_rand_eff <- idx_rand_eff + 1
