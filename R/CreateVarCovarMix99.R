@@ -10,13 +10,13 @@
 #' @title Build Parameter with Variances and Covariances for Mix99
 #'
 #' @export create_parameter_varCovar_mix99
-create_parameter_varCovar_mix99 <- function(psInputFile,
+create_parameter_varCovar_mix99 <- function(ptbl_input,
                                             psOutputFile,
                                             pnDigits,
                                             pbLog = FALSE){
 
   # Prepare the different input to build the parameter file
-  vec_randomEffect_name <- names(psInputFile)
+  vec_randomEffect_name <- names(ptbl_input)
   n_nr_randomEffect <- length(vec_randomEffect_name)
   # Check if in inputFile the random effects animal and residual are present
   vec_random_effect_req <- c("animal", "residual")
@@ -32,8 +32,8 @@ create_parameter_varCovar_mix99 <- function(psInputFile,
     file.remove(psOutputFile)
 
   # Build Variance/Covariance Parameter-File for Mix99
-  n_nr_trait <- dim(psInputFile[[1]])[1]
-  vec_trait_name <- rownames(psInputFile[[1]])
+  n_nr_trait <- dim(ptbl_input[[1]])[1]
+  vec_trait_name <- rownames(ptbl_input[[1]])
   idx_rand_eff <- 1
   for(Z in vec_random_effect_order){
     for(i in 1:n_nr_trait){
