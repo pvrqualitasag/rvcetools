@@ -113,13 +113,15 @@
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
 <p>The most central feature is to read in raw outfiles from the different variance components estimation programs. In the most basic case there is only one output file from one analysis. In more advanced analyses, there might be output files from repeated analyses of different sample data sets.</p>
+<p>The package <code>rvcetools</code> contains a number of features already and they will hopefully grow over time. For the purpose of a genetic evaluation the most important feature is to read estimated variance components and to produce an input file for the software program that does the prediction of breeding values. This function is called <code><a href="../reference/parameter_varCovar_mix99.html">parameter_varCovar_mix99()</a></code>. All it needs is an input file and an output file and all steps in between will be done automatically. The functions envolved in all the steps are shown in the dependency graph below.</p>
+<p><img src="getting_started_rvcetools_files/figure-html/codedependsgraph-1.png" width="700"></p>
 </div>
 <div id="package-input" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-input" class="anchor"></a>Package Input</h2>
 <p>Currently the package can read VCE results from .csv files which are in a pre-defined format. For testing an example input file is included in the package available.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">(s_input &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"VCE_results.csv"</span>, <span class="dt">package =</span> <span class="st">"rvcetools"</span>))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "/private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/Rtmp7SipFw/temp_libpath62b733c591f6/rvcetools/extdata/VCE_results.csv"</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "/private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/RtmpuL0OAW/temp_libpathb9351f6acf38/rvcetools/extdata/VCE_results.csv"</span></a></code></pre></div>
 <p>The input data can be read using the function</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">(tbl_vce &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_vce.html">read_vce</a></span>(<span class="dt">psInputFile =</span> s_input))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6,414 x 9</span></a>
@@ -235,6 +237,99 @@
 <a class="sourceLine" id="cb14-29" data-line-number="29"><span class="co">#&gt; [1] "nearPD"</span></a></code></pre></div>
 </div>
 </div>
+<div id="input-for-mix99" class="section level2">
+<h2 class="hasAnchor">
+<a href="#input-for-mix99" class="anchor"></a>Input For MiX99</h2>
+<p>In livestock breeding, variance components are required as input to predict breeding values. The software package MiX99 is used to predict breeding values. In this package <code>rvcetools</code>, the function <code><a href="../reference/create_parameter_varCovar_mix99.html">create_parameter_varCovar_mix99()</a></code> creates output that can be used as input for MiX99. The function <code><a href="../reference/create_parameter_varCovar_mix99.html">create_parameter_varCovar_mix99()</a></code> writes the post-processed variance components output in a tabular form to a file. The format of this output can be shown below.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">sInputFile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"VCE_results.csv"</span>, <span class="dt">package =</span> <span class="st">"rvcetools"</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">ResultPD &lt;-<span class="st"> </span><span class="kw"><a href="../reference/positivedefinit.html">positivedefinit</a></span>(<span class="dt">psInputFile =</span> sInputFile)</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; Warning: Expected 2 pieces. Missing pieces filled with `NA` in 1671 rows</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; [3, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16, 18, 20, 21, 22, 23, 24, 26, 29,</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 31, ...].</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">sMix99File &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">'mix99_output.txt'</span>)</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="kw"><a href="../reference/create_parameter_varCovar_mix99.html">create_parameter_varCovar_mix99</a></span>(<span class="dt">pl_mat       =</span> ResultPD,</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">                                <span class="dt">psOutputFile =</span> sMix99File,</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">                                <span class="dt">pnDigits     =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">vec_result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="dt">con =</span> <span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(sMix99File))</a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(sMix99File)</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vec_result)</a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt; [1] "herdyear caa caa 0.4119715"   "herdyear caa cac 0.002703273"</span></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt; [3] "herdyear caa cca 0.007328"    "herdyear caa ccc 0.01073419" </span></a>
+<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt; [5] "herdyear caa cfa -0.01525923" "herdyear caa cfc 0.003302973"</span></a></code></pre></div>
+<p>What is shown in the above code-junk can be done in one step using the function <code><a href="../reference/parameter_varCovar_mix99.html">parameter_varCovar_mix99()</a></code> with an input and an output file as parameter as shown below.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">sInputFile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"VCE_results.csv"</span>, <span class="dt">package =</span> <span class="st">"rvcetools"</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">sMix99File &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">'mix99_output.txt'</span>)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="../reference/parameter_varCovar_mix99.html">parameter_varCovar_mix99</a></span>(<span class="dt">psInputFile =</span> sInputFile, <span class="dt">psOutputFile =</span> sMix99File)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; Warning: Expected 2 pieces. Missing pieces filled with `NA` in 1671 rows</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; [3, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16, 18, 20, 21, 22, 23, 24, 26, 29,</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 31, ...].</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">vec_result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="dt">con =</span> <span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(sMix99File))</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(sMix99File)</a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vec_result)</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; [1] "herdyear caa caa 0.4119715"   "herdyear caa cac 0.002703273"</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; [3] "herdyear caa cca 0.007328"    "herdyear caa ccc 0.01073419" </span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; [5] "herdyear caa cfa -0.01525923" "herdyear caa cfc 0.003302973"</span></a></code></pre></div>
+<p>Using the bending approach that changes the ratios of the eigenvalues is shown below</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">sInputFile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"VCE_results.csv"</span>, <span class="dt">package =</span> <span class="st">"rvcetools"</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">sMix99File &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">'mix99_output.txt'</span>)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="kw"><a href="../reference/parameter_varCovar_mix99.html">parameter_varCovar_mix99</a></span>(<span class="dt">psInputFile =</span> sInputFile, <span class="dt">psOutputFile =</span> sMix99File, <span class="dt">psOptionRatio =</span> <span class="ot">TRUE</span>, <span class="dt">psRatio =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt; Warning: Expected 2 pieces. Missing pieces filled with `NA` in 1671 rows</span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; [3, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16, 18, 20, 21, 22, 23, 24, 26, 29,</span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt; 31, ...].</span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">vec_result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="dt">con =</span> <span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(sMix99File))</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(sMix99File)</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(vec_result)</a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; [1] "herdyear caa caa 0.4119715"   "herdyear caa cac 0.002703273"</span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; [3] "herdyear caa cca 0.007328"    "herdyear caa ccc 0.01073419" </span></a>
+<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt; [5] "herdyear caa cfa -0.01525923" "herdyear caa cfc 0.003302973"</span></a></code></pre></div>
+</div>
+<div id="session-info" class="section level1">
+<h1 class="hasAnchor">
+<a href="#session-info" class="anchor"></a>Session Info</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">#&gt; R version 3.6.1 (2019-07-05)</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; Running under: macOS Mojave 10.14.6</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib</span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib</span></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb18-14" data-line-number="14"><span class="co">#&gt; [1] grid      parallel  stats     graphics  grDevices utils     datasets </span></a>
+<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="co">#&gt; [8] methods   base     </span></a>
+<a class="sourceLine" id="cb18-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co">#&gt; [1] Rgraphviz_2.28.0    graph_1.62.0        BiocGenerics_0.30.0</span></a>
+<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt; [4] CodeDepends_0.6.5   rvcetools_0.0.3    </span></a>
+<a class="sourceLine" id="cb18-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-21" data-line-number="21"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb18-22" data-line-number="22"><span class="co">#&gt;  [1] Rcpp_1.0.2       compiler_3.6.1   pillar_1.4.2     tools_3.6.1     </span></a>
+<a class="sourceLine" id="cb18-23" data-line-number="23"><span class="co">#&gt;  [5] zeallot_0.1.0    digest_0.6.21    lattice_0.20-38  lifecycle_0.1.0 </span></a>
+<a class="sourceLine" id="cb18-24" data-line-number="24"><span class="co">#&gt;  [9] evaluate_0.14    memoise_1.1.0    tibble_2.1.3     gtable_0.3.0    </span></a>
+<a class="sourceLine" id="cb18-25" data-line-number="25"><span class="co">#&gt; [13] pkgconfig_2.0.3  rlang_0.4.0      Matrix_1.2-17    cli_1.1.0       </span></a>
+<a class="sourceLine" id="cb18-26" data-line-number="26"><span class="co">#&gt; [17] rstudioapi_0.10  yaml_2.2.0       pkgdown_1.4.1    xfun_0.10       </span></a>
+<a class="sourceLine" id="cb18-27" data-line-number="27"><span class="co">#&gt; [21] stringr_1.4.0    dplyr_0.8.3      knitr_1.25       hms_0.5.1       </span></a>
+<a class="sourceLine" id="cb18-28" data-line-number="28"><span class="co">#&gt; [25] desc_1.2.0       fs_1.3.1         vctrs_0.2.0      stats4_3.6.1    </span></a>
+<a class="sourceLine" id="cb18-29" data-line-number="29"><span class="co">#&gt; [29] rprojroot_1.3-2  tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        </span></a>
+<a class="sourceLine" id="cb18-30" data-line-number="30"><span class="co">#&gt; [33] fansi_0.4.0      XML_3.98-1.20    rmarkdown_1.16   readr_1.3.1     </span></a>
+<a class="sourceLine" id="cb18-31" data-line-number="31"><span class="co">#&gt; [37] ggplot2_3.2.1    purrr_0.3.2      tidyr_1.0.0      magrittr_1.5    </span></a>
+<a class="sourceLine" id="cb18-32" data-line-number="32"><span class="co">#&gt; [41] ellipsis_0.3.0   codetools_0.2-16 backports_1.1.5  scales_1.0.0    </span></a>
+<a class="sourceLine" id="cb18-33" data-line-number="33"><span class="co">#&gt; [45] htmltools_0.4.0  MASS_7.3-51.4    assertthat_0.2.1 colorspace_1.4-1</span></a>
+<a class="sourceLine" id="cb18-34" data-line-number="34"><span class="co">#&gt; [49] utf8_1.1.4       stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0   </span></a>
+<a class="sourceLine" id="cb18-35" data-line-number="35"><span class="co">#&gt; [53] crayon_1.3.4</span></a></code></pre></div>
+</div>
+<div id="latest-update" class="section level1">
+<h1 class="hasAnchor">
+<a href="#latest-update" class="anchor"></a>Latest Update</h1>
+<p>2019-10-07 15:31:58 (pvr)</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -249,6 +344,9 @@
       <li><a href="#package-input">Package Input</a></li>
       <li><a href="#conversion-of-correlation-to-covariance">Conversion of Correlation to Covariance</a></li>
       <li><a href="#bending">Bending</a></li>
+      <li><a href="#input-for-mix99">Input For MiX99</a></li>
+      <li><a href="#session-info">Session Info</a></li>
+      <li><a href="#latest-update">Latest Update</a></li>
       </ul>
 </div>
       </div>
