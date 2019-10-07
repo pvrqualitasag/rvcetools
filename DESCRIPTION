@@ -7,7 +7,7 @@ Authors@R: c(
   person("Sophie","Kunz", email = "sophie.kunz@qualitasag.ch", role = c("aut")),
   person("Peter", "von Rohr", email = "peter.vonrohr@qualitasag.ch", role = c("aut","cre")))
 Maintainer: Peter von Rohr <peter.vonrohr@qualitasag.ch>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Post-Processing of variance-covariance matrices that were estimated from data. The main objective is to make the variance-covariance matrix positive-definite and to produce input for the prediction of breeding values.
 License: GPL (>= 2)
 Suggests: 
     knitr,
