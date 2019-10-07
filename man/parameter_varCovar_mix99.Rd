@@ -5,7 +5,8 @@
 \title{Parameter File for Mix99}
 \usage{
 parameter_varCovar_mix99(psInputFile = psInputFile,
-  psOptionRatio = FALSE, psRatio = 100, psOutputFile = psOutputFile)
+  psOptionRatio = FALSE, psRatio = 100, psOutputFile = psOutputFile,
+  pnDigits = 3)
 }
 \arguments{
 \item{psInputFile}{input csv-file}
@@ -18,7 +19,7 @@ parameter_varCovar_mix99(psInputFile = psInputFile,
 }
 \description{
 Read csv-file of the variance component estimates and construct
-a matrix with this estimates by parts. This matrix is checked if she is
+a matrix with this estimates by parts. This matrix is checked if it is
 positive definite or not. If this matrix is not positive definite, 2
 functions may be called. If you put the paramter psOptionRatio = FALSE,
 makePD2() is called . For the parameter psOptionRatio = TRUE the function
@@ -31,7 +32,7 @@ this function is building this paramter-file.
 }
 \examples{
 \dontrun{
-PositiveDefinit::parameter_varCovar_mix99(psInputFile = '/qualstorzws01/data_projekte/projekte/singularity_data_zws_gslim/muku_CarcassVK/work/VCE_results.csv',
-psOutputFile = 'par_varCovar_mix99.txt')
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = 'par_varCovar_mix99.txt')
 }
 }

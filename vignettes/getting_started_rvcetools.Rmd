@@ -122,6 +122,28 @@ Matrix::nearPD(mat_npd)
 ```
 
 
+## Input for MiX99
+In our genetic routine analysis, we use the software package `MiX99` to predict breeding values. `MiX99` requires  as input  variance-covariance matrices for each random effect in the model. The function `parameter_varCovar_mix99` in this package can be used to produce the variance-covariance matrices in the format required by `MiX99`. A concrete example for a call to the above described function is 
+```{r}
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+mix99outpath <- file.path(tempdir(), 'par_varCovar_mix99.txt')
+parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = mix99outpath)
+```
+
+The first few lines of the variance-covariance input for `MiX99` looks as follows
+
+```{r}
+vec_mix99_input <- readLines(con = file(mix99outpath))
+head(vec_mix99_input)
+file.remove(mix99outpath)
+```
+
+
+## Session Info
+
+```{r}
+sessioninfo::session_info()
+```
 
 
 
