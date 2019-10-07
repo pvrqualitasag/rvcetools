@@ -8,6 +8,12 @@
 
 
 #' @title Build Parameter with Variances and Covariances for Mix99
+#' 
+#' 
+#' @param pl_mat list of matrices
+#' @param psOutputFile output file to which MiX99 parameters should be written to 
+#' @param pbLog flag for logging
+#'
 #'
 #' @export create_parameter_varCovar_mix99
 create_parameter_varCovar_mix99 <- function(pl_mat,
@@ -66,6 +72,7 @@ create_parameter_varCovar_mix99 <- function(pl_mat,
 #' @param psOptionRatio TRUE or FALSE
 #' @param psRatio number
 #' @param psOutputFile output txt-file
+#' @param pnDigits number of digits to be rounded to
 #'
 #' @examples
 #' \dontrun{

@@ -22,6 +22,7 @@
 #' @param psInputFile input csv-file
 #' @param psOptionRatio TRUE or FALSE (default) to indicate whether bending should be done based on ratio of largest to smallest eigenvalue
 #' @param psRatio maximum ratio between largest and smallest eigenvalue. Only relevant, if psOptionRatio == TRUE
+#' @param pnDigits number of digits to which result will be rounded to
 #'
 #' @export positivedefinit
 positivedefinit <- function(psInputFile,
