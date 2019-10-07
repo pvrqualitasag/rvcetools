@@ -12,6 +12,7 @@
 #' @export create_parameter_varCovar_mix99
 create_parameter_varCovar_mix99 <- function(psInputFile,
                                             psOutputFile,
+                                            pnDigits,
                                             pbLog = FALSE){
 
   # Prepare the different input to build the parameter file
@@ -36,7 +37,7 @@ create_parameter_varCovar_mix99 <- function(psInputFile,
   for(Z in vec_random_effect_order){
     for(i in 1:n_nr_trait){
       for(j in i:n_nr_trait){
-        cat(Z, vec_trait_name[i], vec_trait_name[j], format(ResultPD[[Z]][[i,j]], scientific = FALSE), file = psOutputFile, append = TRUE)
+        cat(Z, vec_trait_name[i], vec_trait_name[j], format(ResultPD[[Z]][[i,j]], scientific = FALSE, nsmall = pnDigits), file = psOutputFile, append = TRUE)
         cat("\n", sep= "", file = psOutputFile, append = TRUE)
       }
     }
@@ -50,7 +51,7 @@ create_parameter_varCovar_mix99 <- function(psInputFile,
 #' @title Parameter File for Mix99
 #'
 #' @description Read csv-file of the variance component estimates and construct
-#' a matrix with this estimates by parts. This matrix is checked if she is
+#' a matrix with this estimates by parts. This matrix is checked if it is
 #' positive definite or not. If this matrix is not positive definite, 2
 #' functions may be called. If you put the paramter psOptionRatio = FALSE,
 #' makePD2() is called . For the parameter psOptionRatio = TRUE the function
@@ -68,22 +69,24 @@ create_parameter_varCovar_mix99 <- function(psInputFile,
 #'
 #' @examples
 #' \dontrun{
-#' PositiveDefinit::parameter_varCovar_mix99(psInputFile = '/qualstorzws01/data_projekte/projekte/singularity_data_zws_gslim/muku_CarcassVK/work/VCE_results.csv',
-#' psOutputFile = 'par_varCovar_mix99.txt')
+#' sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+#' parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = 'par_varCovar_mix99.txt')
 #' }
 #' @export parameter_varCovar_mix99
-parameter_varCovar_mix99 <- function(psInputFile = psInputFile,
+parameter_varCovar_mix99 <- function(psInputFile   = psInputFile,
                                      psOptionRatio = FALSE,
-                                     psRatio = 100,
-                                     psOutputFile = psOutputFile){
+                                     psRatio       = 100,
+                                     psOutputFile  = psOutputFile,
+                                     pnDigits      = 3){
 
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
-  ResultPD <- PositiveDefinit::positivedefinit(psInputFile,
+  ResultPD <- positivedefinit(psInputFile,
                                               psOptionRatio,
                                               psRatio)
 
-#  ### # Build Parameter-File in txt-Format with Variances for Mix99
-  PositiveDefinit::create_parameter_varCovar_mix99(psInputFile = ResultPD,
-                                                   psOutputFile = psOutputFile)
+  ### # Build Parameter-File in txt-Format with Variances for Mix99
+  create_parameter_varCovar_mix99(psInputFile  = ResultPD,
+                                  psOutputFile = psOutputFile,
+                                  pnDigits     = pnDigits)
 
 }
