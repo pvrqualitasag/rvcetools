@@ -4,7 +4,8 @@
 \alias{create_parameter_varCovar_mix99}
 \title{Build Parameter with Variances and Covariances for Mix99}
 \usage{
-create_parameter_varCovar_mix99(psInputFile, psOutputFile, pbLog = FALSE)
+create_parameter_varCovar_mix99(psInputFile, psOutputFile, pnDigits,
+  pbLog = FALSE)
 }
 \description{
 Build Parameter with Variances and Covariances for Mix99
