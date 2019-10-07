@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bending and Check or Transform Positive Definite Matrix — positivedefinit • rvcetools</title>
+<title>Changelog • rvcetools</title>
 
 
 <!-- jquery -->
@@ -35,16 +35,7 @@
 
 
 
-<meta property="og:title" content="Bending and Check or Transform Positive Definite Matrix — positivedefinit" />
-<meta property="og:description" content="Read csv-file of the variance component estimates and
-construct a matrix with this estimates by parts.
-This matrix is checked if she is positive definite or not.
-If this matrix is not positive definite, 2 functions may be called.
-If you put the paramter psOptionRatio = FALSE, makePD2() is called .
-For the parameter psOptionRatio = TRUE the function make_pd_rat_ev() is called.
-The difference is, that with make_pd_rat_ev() you have the option to whish a maximum
-ratio between largest and smallest eigenvalue." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -63,7 +54,7 @@ ratio between largest and smallest eigenvalue." />
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -130,50 +121,37 @@ ratio between largest and smallest eigenvalue." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bending and Check or Transform Positive Definite Matrix</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/PositiveDefinit.R'><code>R/PositiveDefinit.R</code></a></small>
-    <div class="hidden name"><code>positivedefinit.Rd</code></div>
+      <h1>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="ref-description">
-    <p>Read csv-file of the variance component estimates and
-construct a matrix with this estimates by parts.
-This matrix is checked if she is positive definite or not.
-If this matrix is not positive definite, 2 functions may be called.
-If you put the paramter psOptionRatio = FALSE, makePD2() is called .
-For the parameter psOptionRatio = TRUE the function make_pd_rat_ev() is called.
-The difference is, that with make_pd_rat_ev() you have the option to whish a maximum
-ratio between largest and smallest eigenvalue.</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>positivedefinit</span>(<span class='no'>psInputFile</span>, <span class='kw'>psOptionRatio</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>psRatio</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>psInputFile</th>
-      <td><p>input csv-file</p></td>
-    </tr>
-    <tr>
-      <th>psOptionRatio</th>
-      <td><p>TRUE or FALSE</p></td>
-    </tr>
-    <tr>
-      <th>psRatio</th>
-      <td><p>number</p></td>
-    </tr>
-    </table>
-
-
+    <div id="rvcetools-0-0-2" class="section level1">
+<h1 class="page-header">
+<a href="#rvcetools-0-0-2" class="anchor"></a>rvcetools 0.0.2</h1>
+<ul>
+<li>Converted package back to ordinary package, removed Rcpp support, because no C++ code is needed right now.</li>
+</ul>
+</div>
+    <div id="rvcetools-0-0-1" class="section level1">
+<h1 class="page-header">
+<a href="#rvcetools-0-0-1" class="anchor"></a>rvcetools 0.0.1</h1>
+<ul>
+<li>Initial version of package. The R-Scripts were mostly copy/pasted from repository <code>PositivDefinit</code> from Sophie Kunz.</li>
+<li>Package was created with Rcpp support.</li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-    </ul>
-
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rvcetools-0-0-2">0.0.2</a></li>
+        <li><a href="#rvcetools-0-0-1">0.0.1</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
 

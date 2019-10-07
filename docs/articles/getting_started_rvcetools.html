@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -60,6 +60,9 @@
       <a href="../articles/plots_vce.html">Plot results of VCE</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -116,7 +119,7 @@
 <a href="#package-input" class="anchor"></a>Package Input</h2>
 <p>Currently the package can read VCE results from .csv files which are in a pre-defined format. For testing an example input file is included in the package available.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">(s_input &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>,<span class="st">"VCE_results.csv"</span>, <span class="dt">package =</span> <span class="st">"rvcetools"</span>))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "/private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/Rtmp1qi2Cd/temp_libpath3d3c47f010f4/rvcetools/extdata/VCE_results.csv"</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "/private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/Rtmp1qi2Cd/temp_libpath3d3c63423ec3/rvcetools/extdata/VCE_results.csv"</span></a></code></pre></div>
 <p>The input data can be read using the function</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">(tbl_vce &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_vce.html">read_vce</a></span>(<span class="dt">psInputFile =</span> s_input))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 6,414 x 9</span></a>
@@ -317,7 +320,7 @@
 <a class="sourceLine" id="cb17-50" data-line-number="50"><span class="co">#&gt;  rmarkdown     1.15     2019-08-21 [2] CRAN (R 3.6.0)</span></a>
 <a class="sourceLine" id="cb17-51" data-line-number="51"><span class="co">#&gt;  rprojroot     1.3-2    2018-01-03 [2] CRAN (R 3.5.0)</span></a>
 <a class="sourceLine" id="cb17-52" data-line-number="52"><span class="co">#&gt;  rstudioapi    0.10     2019-03-19 [2] CRAN (R 3.6.0)</span></a>
-<a class="sourceLine" id="cb17-53" data-line-number="53"><span class="co">#&gt;  rvcetools   * 0.0.1    2019-10-07 [1] local         </span></a>
+<a class="sourceLine" id="cb17-53" data-line-number="53"><span class="co">#&gt;  rvcetools   * 0.0.2    2019-10-07 [1] local         </span></a>
 <a class="sourceLine" id="cb17-54" data-line-number="54"><span class="co">#&gt;  scales        1.0.0    2018-08-09 [2] CRAN (R 3.6.0)</span></a>
 <a class="sourceLine" id="cb17-55" data-line-number="55"><span class="co">#&gt;  sessioninfo   1.1.1    2018-11-05 [2] CRAN (R 3.5.0)</span></a>
 <a class="sourceLine" id="cb17-56" data-line-number="56"><span class="co">#&gt;  stringi       1.4.3    2019-03-12 [2] CRAN (R 3.6.0)</span></a>
@@ -332,7 +335,7 @@
 <a class="sourceLine" id="cb17-65" data-line-number="65"><span class="co">#&gt;  yaml          2.2.0    2018-07-25 [2] CRAN (R 3.6.0)</span></a>
 <a class="sourceLine" id="cb17-66" data-line-number="66"><span class="co">#&gt;  zeallot       0.1.0    2018-01-28 [2] CRAN (R 3.6.0)</span></a>
 <a class="sourceLine" id="cb17-67" data-line-number="67"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb17-68" data-line-number="68"><span class="co">#&gt; [1] /private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/Rtmp1qi2Cd/temp_libpath3d3c47f010f4</span></a>
+<a class="sourceLine" id="cb17-68" data-line-number="68"><span class="co">#&gt; [1] /private/var/folders/2v/jfsqj8zj2f122jcgy15nzfn00000gn/T/Rtmp1qi2Cd/temp_libpath3d3c63423ec3</span></a>
 <a class="sourceLine" id="cb17-69" data-line-number="69"><span class="co">#&gt; [2] /Library/Frameworks/R.framework/Versions/3.6/Resources/library</span></a></code></pre></div>
 </div>
   </div>
