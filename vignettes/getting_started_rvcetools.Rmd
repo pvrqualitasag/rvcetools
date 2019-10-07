@@ -36,7 +36,7 @@ The most central feature is to read in raw outfiles from the different variance 
 
 The package `rvcetools` contains a number of features already and they will hopefully grow over time. For the purpose of a genetic evaluation the most important feature is to read estimated variance components and to produce an input file for the software program that does the prediction of breeding values. This function is called `parameter_varCovar_mix99()`. All it needs is an input file and an output file and all steps in between will be done automatically. The functions envolved in all the steps are shown in the dependency graph below. 
 
-```{r codedependsgraph, echo=FALSE}
+```{r codedependsgraph, echo=FALSE, message=FALSE}
 if (require(CodeDepends)){
   gg <- CodeDepends::makeCallGraph("package:rvcetools")
   if(require(Rgraphviz)) {
@@ -138,18 +138,41 @@ Matrix::nearPD(mat_npd)
 ## Input For MiX99
 In livestock breeding, variance components are required as input to predict breeding values. The software package MiX99 is used to predict breeding values. In this package `rvcetools`, the function `create_parameter_varCovar_mix99()` creates output that can be used as input for MiX99. The function `create_parameter_varCovar_mix99()` writes the post-processed variance components output in a tabular form to a file. The format of this output can be shown below.
 
-```{r exampleoutput}
+```{r exampleoutput, message=FALSE}
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 ResultPD <- positivedefinit(psInputFile = sInputFile)
 sMix99File <- file.path(tempdir(), 'mix99_output.txt')
-create_parameter_varCovar_mix99(pl_mat   = ResultPD,
-                                psOutputFile = sMix99File )
+create_parameter_varCovar_mix99(pl_mat       = ResultPD,
+                                psOutputFile = sMix99File,
+                                pnDigits     = 3)
 vec_result <- readLines(con = file(sMix99File))
 file.remove(sMix99File)
 head(vec_result)
 ```
 
-What is shown in the above code-junk can be done in one step using the function `parameter_varCovar_mix99()` with an input and an output file as parameter.
+What is shown in the above code-junk can be done in one step using the function `parameter_varCovar_mix99()` with an input and an output file as parameter as shown below.
+
+```{r onestatement, message=FALSE}
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+sMix99File <- file.path(tempdir(), 'mix99_output.txt')
+parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File)
+vec_result <- readLines(con = file(sMix99File))
+file.remove(sMix99File)
+head(vec_result)
+```
+
+
+Using the bending approach that changes the ratios of the eigenvalues is shown below
+
+```{r bendratio, message=FALSE}
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+sMix99File <- file.path(tempdir(), 'mix99_output.txt')
+parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File, psOptionRatio = TRUE, psRatio = 10)
+vec_result <- readLines(con = file(sMix99File))
+file.remove(sMix99File)
+head(vec_result)
+```
+
 
 
 # Session Info
