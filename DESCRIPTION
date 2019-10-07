@@ -1,7 +1,7 @@
 Package: rvcetools
 Type: Package
 Title: Post-Processing Of Variance Components Results
-Version: 0.0.1
+Version: 0.0.2
 Date: 2019-09-25
 Authors@R: c(
   person("Sophie","Kunz", email = "sophie.kunz@qualitasag.ch", role = c("aut")),
@@ -9,8 +9,6 @@ Authors@R: c(
 Maintainer: Peter von Rohr <peter.vonrohr@qualitasag.ch>
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.2)
-LinkingTo: Rcpp
 Suggests: 
     knitr,
     rmarkdown
