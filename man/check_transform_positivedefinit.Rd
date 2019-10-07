@@ -5,7 +5,7 @@
 \title{Bending of a List of Matrices for Different Random Effects}
 \usage{
 check_transform_positivedefinit(psInputFile, psOptionRatio, psRatio,
-  pbLog = FALSE)
+  pnDigits, pbLog = FALSE)
 }
 \arguments{
 \item{psInputFile}{}
@@ -13,6 +13,8 @@ check_transform_positivedefinit(psInputFile, psOptionRatio, psRatio,
 \item{psOptionRatio}{}
 
 \item{psRatio}{}
+
+\item{pnDigits}{number of digits to be rounded to}
 
 \item{pbLog}{}
 }

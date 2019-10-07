@@ -76,7 +76,7 @@ ratio between largest and smallest eigenvalue." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -138,7 +138,8 @@ The difference is, that with make_pd_rat_ev() you have the option to whish a max
 ratio between largest and smallest eigenvalue.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>positivedefinit</span>(<span class='no'>psInputFile</span>, <span class='kw'>psOptionRatio</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>psRatio</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
+    <pre class="usage"><span class='fu'>positivedefinit</span>(<span class='no'>psInputFile</span>, <span class='kw'>psOptionRatio</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>psRatio</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>pnDigits</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,11 +150,11 @@ ratio between largest and smallest eigenvalue.</p>
     </tr>
     <tr>
       <th>psOptionRatio</th>
-      <td><p>TRUE or FALSE</p></td>
+      <td><p>TRUE or FALSE (default) to indicate whether bending should be done based on ratio of largest to smallest eigenvalue</p></td>
     </tr>
     <tr>
       <th>psRatio</th>
-      <td><p>number</p></td>
+      <td><p>maximum ratio between largest and smallest eigenvalue. Only relevant, if psOptionRatio == TRUE</p></td>
     </tr>
     </table>
 

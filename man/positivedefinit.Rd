@@ -4,7 +4,8 @@
 \alias{positivedefinit}
 \title{Bending and Check or Transform Positive Definite Matrix}
 \usage{
-positivedefinit(psInputFile, psOptionRatio = FALSE, psRatio = 100)
+positivedefinit(psInputFile, psOptionRatio = FALSE, psRatio = 100,
+  pnDigits = NA)
 }
 \arguments{
 \item{psInputFile}{input csv-file}

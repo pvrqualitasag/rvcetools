@@ -11,6 +11,7 @@
 #' the smallest positive eigen-value.
 #'
 #' @param A input matrix
+#' @param pnDigits number of digits to be rounded to
 #'
 #' @return Bended positive-definite matrix A
 #' @export makePD2
@@ -18,7 +19,7 @@
 #' @examples
 #' G<- matrix(c(100,80,20,6,80,50,10,2,20,10,6,1,6,2,1,1), ncol = 4, byrow=TRUE)
 #' makePD2(G)
-makePD2 <- function(A){
+makePD2 <- function(A, pnDigits = NA){
   # compute eigenvalue-eigenvector decomposition
   D  <-  eigen(A)
   # assign separate values
@@ -125,12 +126,14 @@ make_pd_rat_ev <- function(A, pn_max_ratio){
 #' @param psInputFile 
 #' @param psOptionRatio 
 #' @param psRatio 
+#' @param pnDigits  number of digits to be rounded to
 #' @param pbLog 
 #'
 #' @export check_transform_positivedefinit
 check_transform_positivedefinit <- function(psInputFile,
                                             psOptionRatio,
                                             psRatio,
+                                            pnDigits,
                                             pbLog = FALSE){
  
   ### # get names of random effects from names of list of input variance-covariance matrices
@@ -155,7 +158,7 @@ check_transform_positivedefinit <- function(psInputFile,
         }else{
         # Run function makePD2
         # Optimized function of Schaeffer
-          PDresultList[[Z]] <- makePD2(psInputFile[[Z]])
+          PDresultList[[Z]] <- makePD2(psInputFile[[Z]], pnDigits)
       }
     }
   }

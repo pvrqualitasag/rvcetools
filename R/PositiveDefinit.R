@@ -26,7 +26,8 @@
 #' @export positivedefinit
 positivedefinit <- function(psInputFile,
                             psOptionRatio = FALSE,
-                            psRatio       = 100){
+                            psRatio       = 100,
+                            pnDigits      = NA){
 
   ## # Run function read_vce
   ResultTibble <- read_vce(psInputFile = psInputFile)
@@ -37,7 +38,8 @@ positivedefinit <- function(psInputFile,
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
   ResultPD <- check_transform_positivedefinit(psInputFile   = ResultMatrixAsList,
                                               psOptionRatio = psOptionRatio,
-                                              psRatio       = psRatio)
+                                              psRatio       = psRatio,
+                                              pnDigits      = pnDigits)
   return(ResultPD)
 
 }
