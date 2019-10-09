@@ -1,3 +1,8 @@
+# rvcetools 0.0.6
+
+* Remove redundant function arguments with respect to specifying which bending method should be used
+* Start testing
+
 # rvcetools 0.0.5
 
 * Implemented bending method described in [Jorjani et al.  2003](https://www.journalofdairyscience.org/article/S0022-0302(03)73646-7/fulltext)
