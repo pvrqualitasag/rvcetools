@@ -1,3 +1,8 @@
+# rvcetools 0.0.5
+
+* Implemented bending method described in [Jorjani et al.  2003](https://www.journalofdairyscience.org/article/S0022-0302(03)73646-7/fulltext)
+
+
 # rvcetools 0.0.4
 
 * Fixed bugs with rounding. Removed formatted output with restricting the number of digits from the output. The only formating that is done in the output is setting the scientific format to `FALSE`. 

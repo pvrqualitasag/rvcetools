@@ -3,6 +3,8 @@
 #' date:  "`r Sys.Date()`"
 #' ---
 
+# -- Bending Functions ------------------------------------------ ###
+
 #' @title Bending of Matrix A
 #'
 #' @description
@@ -131,6 +133,72 @@ make_pd_rat_ev <- function(A, pn_max_ratio, pnDigits = NA){
 }
 
 
+#' @title Weighted Bending of a Matrix
+#' 
+#' @description 
+#' This function implements the algorithm described in Jorjani2003. Without 
+#' specifying a weight matrix, it corresponds to the unweighted bending where 
+#' each eigenvalue is set to a lower limit which is given by the parameter pn_eps.
+#' The advantage of this bending method is that it is possible to specify a 
+#' weight matrix where matrix elements with a high weight do not get changed as 
+#' much as elements with a small weight. The number of observations used to 
+#' estimate each variance component can be used as a weighting factor.
+#'
+#' @param A input matrix
+#' @param pmat_weight weight matrix
+#' @param pn_eps smallest accepted eigenvalue
+#'
+#' @return mat_result bended matrix
+#' @export make_pd_weight
+#'
+#' @examples
+#' # reading input matrix from paper by Jorjani et al 2003
+#' sinput_file <- system.file('extdata', 'mat_test_jorjani2003.dat', package = 'rvcetools')
+#' mat_test_jorjani <- as.matrix(readr::read_delim(file = sinput_file, delim = ' ', col_names = FALSE))
+#' make_pd_weight(mat_test_jorjani)
+make_pd_weight <- function(A, 
+                           pmat_weight = matrix(1, nrow = nrow(A), ncol = ncol(A)), 
+                           pn_eps = 1e-4,
+                           pn_max_iter = 1e6){
+  # intializse result matrix
+  mat_result <- A
+  # get eigenvalue/eigenvector decomposition
+  D <- eigen(mat_result)
+  # assign eigenvectors and eigen values to separate variables
+  vec_eval <- D$values
+  mat_evec <- D$vectors
+  # check whether mat_result must be bended
+  nnr_eval_below_eps <- sum(vec_eval < pn_eps)
+  if (nnr_eval_below_eps < 1L)
+    return(mat_result)
+  
+  # repeat as long as smallest eigenvalue is smaller than pn_eps
+  nnr_iter <- 1
+  while (min(vec_eval) < pn_eps){
+    # check number of iterations
+    if (nnr_iter > pn_max_iter)
+      stop(" *** make_pd_weight: Maximum number of iterations reached")
+    # replace all eigenvalues that are smaller than pn_eps by pn_eps
+    vec_corr_eval <- vec_eval
+    # eigenvalues that are below the limit of pn_eps are replaced by pn_eps plus a small quantity 
+    #  which is required otherwise the while condition does not stop
+    vec_corr_eval[which(vec_corr_eval < pn_eps)] <- pn_eps + sqrt(.Machine$double.eps)
+    # compute the matrix of the current iteration
+    mat_result <- mat_result - (mat_result - mat_evec %*% diag(vec_corr_eval) %*% t(mat_evec)) * 1/pmat_weight
+    # get eigenvalue/eigenvector decomposition
+    D <- eigen(mat_result)
+    # assign eigenvectors and eigen values to separate variables
+    vec_eval <- D$values
+    mat_evec <- D$vectors
+    nnr_iter <- nnr_iter + 1
+  }
+  return(mat_result)
+  
+}
+
+
+
+# -- Bending List of Matrices ------------------------------------------ ###
 
 #' @title Bending of a List of Matrices for Different Random Effects
 #' 

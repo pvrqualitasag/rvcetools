@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parameter File for Mix99 — parameter_varCovar_mix99 • rvcetools</title>
+<title>Weighted Bending of a Matrix — make_pd_weight • rvcetools</title>
 
 
 <!-- jquery -->
@@ -35,17 +35,14 @@
 
 
 
-<meta property="og:title" content="Parameter File for Mix99 — parameter_varCovar_mix99" />
-<meta property="og:description" content="Read csv-file of the variance component estimates and construct
-a matrix with this estimates by parts. This matrix is checked if it is
-positive definite or not. If this matrix is not positive definite, 2
-functions may be called. If you put the paramter psOptionRatio = FALSE,
-makePD2() is called . For the parameter psOptionRatio = TRUE the function
-make_pd_rat_ev() is called. The difference is, that with make_pd_rat_ev() you
-have the option to whish a maximum ratio between largest and smallest
-eigenvalue.
-The software mix99 need a paramter-File with the variance and covariance. So
-this function is building this paramter-file." />
+<meta property="og:title" content="Weighted Bending of a Matrix — make_pd_weight" />
+<meta property="og:description" content="This function implements the algorithm described in Jorjani2003. Without 
+specifying a weight matrix, it corresponds to the unweighted bending where 
+each eigenvalue is set to a lower limit which is given by the parameter pn_eps.
+The advantage of this bending method is that it is possible to specify a 
+weight matrix where matrix elements with a high weight do not get changed as 
+much as elements with a small weight. The number of observations used to 
+estimate each variance component can be used as a weighting factor." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -132,63 +129,67 @@ this function is building this paramter-file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parameter File for Mix99</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/CreateVarCovarMix99.R'><code>R/CreateVarCovarMix99.R</code></a></small>
-    <div class="hidden name"><code>parameter_varCovar_mix99.Rd</code></div>
+    <h1>Weighted Bending of a Matrix</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/MakePD.R'><code>R/MakePD.R</code></a></small>
+    <div class="hidden name"><code>make_pd_weight.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read csv-file of the variance component estimates and construct
-a matrix with this estimates by parts. This matrix is checked if it is
-positive definite or not. If this matrix is not positive definite, 2
-functions may be called. If you put the paramter psOptionRatio = FALSE,
-makePD2() is called . For the parameter psOptionRatio = TRUE the function
-make_pd_rat_ev() is called. The difference is, that with make_pd_rat_ev() you
-have the option to whish a maximum ratio between largest and smallest
-eigenvalue.</p>
-<p>The software mix99 need a paramter-File with the variance and covariance. So
-this function is building this paramter-file.</p>
+    <p>This function implements the algorithm described in Jorjani2003. Without 
+specifying a weight matrix, it corresponds to the unweighted bending where 
+each eigenvalue is set to a lower limit which is given by the parameter pn_eps.
+The advantage of this bending method is that it is possible to specify a 
+weight matrix where matrix elements with a high weight do not get changed as 
+much as elements with a small weight. The number of observations used to 
+estimate each variance component can be used as a weighting factor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parameter_varCovar_mix99</span>(<span class='no'>psInputFile</span>, <span class='kw'>psOptionRatio</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>psRatio</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>psOutputFile</span>, <span class='kw'>pnDigits</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>make_pd_weight</span>(<span class='no'>A</span>, <span class='kw'>pmat_weight</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>A</span>), <span class='kw'>ncol</span> <span class='kw'>=</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>A</span>)), <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>pn_max_iter</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>psInputFile</th>
-      <td><p>input csv-file</p></td>
+      <th>A</th>
+      <td><p>input matrix</p></td>
     </tr>
     <tr>
-      <th>psOptionRatio</th>
-      <td><p>TRUE or FALSE</p></td>
+      <th>pmat_weight</th>
+      <td><p>weight matrix</p></td>
     </tr>
     <tr>
-      <th>psRatio</th>
-      <td><p>number</p></td>
-    </tr>
-    <tr>
-      <th>psOutputFile</th>
-      <td><p>output txt-file</p></td>
-    </tr>
-    <tr>
-      <th>pnDigits</th>
-      <td><p>number of digits to be rounded to</p></td>
+      <th>pn_eps</th>
+      <td><p>smallest accepted eigenvalue</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>mat_result bended matrix</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>sInputFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>,<span class='st'>"VCE_results.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rvcetools"</span>)
-<span class='fu'>parameter_varCovar_mix99</span>(<span class='kw'>psInputFile</span> <span class='kw'>=</span> <span class='no'>sInputFile</span>, <span class='kw'>psOutputFile</span> <span class='kw'>=</span> <span class='st'>'par_varCovar_mix99.txt'</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># reading input matrix from paper by Jorjani et al 2003</span>
+<span class='no'>sinput_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mat_test_jorjani2003.dat'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'rvcetools'</span>)
+<span class='no'>mat_test_jorjani</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_delim</a></span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='no'>sinput_file</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>' '</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  X1 = <span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  X2 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  X3 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  X4 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  X5 = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>)</span></div><div class='input'><span class='fu'>make_pd_weight</span>(<span class='no'>mat_test_jorjani</span>)</div><div class='output co'>#&gt;             X1        X2        X3        X4        X5
+#&gt; [1,] 103.16918  90.83313  79.47122  44.53731  37.07254
+#&gt; [2,]  90.83313 106.49734  94.18961  74.07039  44.53731
+#&gt; [3,]  79.47122  94.18961 102.31355  94.18961  79.47122
+#&gt; [4,]  44.53731  74.07039  94.18961 106.49734  90.83313
+#&gt; [5,]  37.07254  44.53731  79.47122  90.83313 103.16918</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
