@@ -71,7 +71,7 @@ the smallest positive eigen-value." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -93,6 +93,9 @@ the smallest positive eigen-value." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/bending_methods.html">Bending Methods</a>
+    </li>
     <li>
       <a href="../articles/getting_started_rvcetools.html">Getting Started with rvcetools</a>
     </li>
@@ -136,7 +139,7 @@ The negative eigen-values are projected into the range between zero and
 the smallest positive eigen-value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>makePD2</span>(<span class='no'>A</span>, <span class='kw'>pnDigits</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>makePD2</span>(<span class='no'>A</span>, <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,7 +149,7 @@ the smallest positive eigen-value.</p>
       <td><p>input matrix</p></td>
     </tr>
     <tr>
-      <th>pnDigits</th>
+      <th>pn_digits</th>
       <td><p>number of digits to be rounded to</p></td>
     </tr>
     </table>

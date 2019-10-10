@@ -75,7 +75,7 @@ estimate each variance component can be used as a weighting factor." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -97,6 +97,9 @@ estimate each variance component can be used as a weighting factor." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/bending_methods.html">Bending Methods</a>
+    </li>
     <li>
       <a href="../articles/getting_started_rvcetools.html">Getting Started with rvcetools</a>
     </li>
@@ -145,7 +148,7 @@ estimate each variance component can be used as a weighting factor.</p>
     </div>
 
     <pre class="usage"><span class='fu'>make_pd_weight</span>(<span class='no'>A</span>, <span class='kw'>pmat_weight</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>A</span>), <span class='kw'>ncol</span> <span class='kw'>=</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>A</span>)), <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>pn_max_iter</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>)</pre>
+  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>A</span>)), <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>pn_max_iter</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>, <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,6 +164,10 @@ estimate each variance component can be used as a weighting factor.</p>
     <tr>
       <th>pn_eps</th>
       <td><p>smallest accepted eigenvalue</p></td>
+    </tr>
+    <tr>
+      <th>number</th>
+      <td><p>of digits to be rounded to</p></td>
     </tr>
     </table>
 

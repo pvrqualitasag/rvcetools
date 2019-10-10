@@ -4,20 +4,36 @@
 \alias{check_transform_positivedefinit}
 \title{Bending of a List of Matrices for Different Random Effects}
 \usage{
-check_transform_positivedefinit(psInputFile, psOptionRatio, psRatio,
-  pnDigits, pbLog = FALSE)
+check_transform_positivedefinit(pl_mat, pn_ratio = NULL, pn_eps = NULL,
+  pmat_weight = NULL, pn_digits = NULL, pb_log = FALSE,
+  plogger = NULL)
 }
 \arguments{
-\item{psInputFile}{}
+\item{pl_mat}{list of input matrices which are bent if necessary}
 
-\item{psOptionRatio}{}
+\item{pn_ratio}{specified ratio between largest and smallest eigenvalue}
 
-\item{psRatio}{}
+\item{pn_eps}{smallest eigenvalue in weighted bending}
 
-\item{pnDigits}{number of digits to be rounded to}
+\item{pmat_weight}{weight matrix for weighted bending}
 
-\item{pbLog}{}
+\item{pn_digits}{number of digits to be rounded to}
+
+\item{pb_log}{indicator flag for logging}
+
+\item{plogger}{log4r object to log to}
 }
 \description{
-
+Given a list of variance-covariance matrices passed by the parameter \code{pl_mat}, 
+each of the matrices is checked whether it is positive definite based on the smallest 
+eigenvalue of the matrix. Non-positive definite matrices are bent using a method 
+that is determined based on the parameters given. If the function is called with 
+just the list of matrices, then the Schaeffer method is used using the function 
+\code{makePD2()}. Specifing a ratio between largest and smallest eigenvalue using 
+the parameter \code{pn_ratio} causes the usage of the ratio method. When specifying 
+a minimal eigenvalue using parameter \code{pn_eps}, the method of Jorjani et al. 
+2003 is used. This method exists in a weighted and an unweighted version. Which 
+of the two versions is used is determined by the parameter pmat_weight. When a 
+weight matrix is given via \code{pmat_weight} the weighted version is used, otherwise 
+the unweighted version is used.
 }

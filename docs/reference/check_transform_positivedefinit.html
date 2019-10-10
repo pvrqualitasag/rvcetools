@@ -36,9 +36,18 @@
 
 
 <meta property="og:title" content="Bending of a List of Matrices for Different Random Effects — check_transform_positivedefinit" />
-<meta property="og:description" content="
-
-" />
+<meta property="og:description" content="Given a list of variance-covariance matrices passed by the parameter pl_mat, 
+each of the matrices is checked whether it is positive definite based on the smallest 
+eigenvalue of the matrix. Non-positive definite matrices are bent using a method 
+that is determined based on the parameters given. If the function is called with 
+just the list of matrices, then the Schaeffer method is used using the function 
+makePD2(). Specifing a ratio between largest and smallest eigenvalue using 
+the parameter pn_ratio causes the usage of the ratio method. When specifying 
+a minimal eigenvalue using parameter pn_eps, the method of Jorjani et al. 
+2003 is used. This method exists in a weighted and an unweighted version. Which 
+of the two versions is used is determined by the parameter pmat_weight. When a 
+weight matrix is given via pmat_weight the weighted version is used, otherwise 
+the unweighted version is used." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -71,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -93,6 +102,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/bending_methods.html">Bending Methods</a>
+    </li>
     <li>
       <a href="../articles/getting_started_rvcetools.html">Getting Started with rvcetools</a>
     </li>
@@ -131,36 +143,54 @@
     </div>
 
     <div class="ref-description">
-    
-
-
+    <p>Given a list of variance-covariance matrices passed by the parameter <code>pl_mat</code>, 
+each of the matrices is checked whether it is positive definite based on the smallest 
+eigenvalue of the matrix. Non-positive definite matrices are bent using a method 
+that is determined based on the parameters given. If the function is called with 
+just the list of matrices, then the Schaeffer method is used using the function 
+<code><a href='makePD2.html'>makePD2()</a></code>. Specifing a ratio between largest and smallest eigenvalue using 
+the parameter <code>pn_ratio</code> causes the usage of the ratio method. When specifying 
+a minimal eigenvalue using parameter <code>pn_eps</code>, the method of Jorjani et al. 
+2003 is used. This method exists in a weighted and an unweighted version. Which 
+of the two versions is used is determined by the parameter pmat_weight. When a 
+weight matrix is given via <code>pmat_weight</code> the weighted version is used, otherwise 
+the unweighted version is used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_transform_positivedefinit</span>(<span class='no'>psInputFile</span>, <span class='no'>psOptionRatio</span>, <span class='no'>psRatio</span>,
-  <span class='no'>pnDigits</span>, <span class='kw'>pbLog</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>check_transform_positivedefinit</span>(<span class='no'>pl_mat</span>, <span class='kw'>pn_ratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pmat_weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb_log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>plogger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>psInputFile</th>
-      <td></td>
+      <th>pl_mat</th>
+      <td><p>list of input matrices which are bent if necessary</p></td>
     </tr>
     <tr>
-      <th>psOptionRatio</th>
-      <td></td>
+      <th>pn_ratio</th>
+      <td><p>specified ratio between largest and smallest eigenvalue</p></td>
     </tr>
     <tr>
-      <th>psRatio</th>
-      <td></td>
+      <th>pn_eps</th>
+      <td><p>smallest eigenvalue in weighted bending</p></td>
     </tr>
     <tr>
-      <th>pnDigits</th>
+      <th>pmat_weight</th>
+      <td><p>weight matrix for weighted bending</p></td>
+    </tr>
+    <tr>
+      <th>pn_digits</th>
       <td><p>number of digits to be rounded to</p></td>
     </tr>
     <tr>
-      <th>pbLog</th>
-      <td></td>
+      <th>pb_log</th>
+      <td><p>indicator flag for logging</p></td>
+    </tr>
+    <tr>
+      <th>plogger</th>
+      <td><p>log4r object to log to</p></td>
     </tr>
     </table>
 

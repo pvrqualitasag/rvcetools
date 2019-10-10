@@ -80,7 +80,7 @@ nnr_iter <- nnr_iter + 1
 
 #' Use the function
 #+ func-test
-make_pd_weight(mat_var_jorjani)
+rvcetools::make_pd_weight(mat_var_jorjani)
 
 #' ## Second Test using weight matrix
 #' The paper gives also an example of the weight matrix
@@ -93,5 +93,6 @@ mat_weight <- matrix(data = c(1000,500,20,50,200,
 
 mat_weight
 isSymmetric(mat_weight)
-mat_r_w <- make_pd_weight(mat_var_jorjani, pmat_weight = 1/mat_weight)
+mat_r_w <- rvcetools::make_pd_weight(mat_var_jorjani, pmat_weight = mat_weight)
 mat_r_w
+round(mat_r_w, digits = 1)

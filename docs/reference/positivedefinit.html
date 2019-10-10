@@ -40,8 +40,7 @@
 construct a matrix with this estimates by parts.
 This matrix is checked if she is positive definite or not.
 If this matrix is not positive definite, 2 functions may be called.
-If you put the paramter psOptionRatio = FALSE, makePD2() is called .
-For the parameter psOptionRatio = TRUE the function make_pd_rat_ev() is called.
+If pn_ratio == NULL, makePD2() is called, otherwise the function make_pd_rat_ev() is called.
 The difference is, that with make_pd_rat_ev() you have the option to whish a maximum
 ratio between largest and smallest eigenvalue." />
 <meta name="twitter:card" content="summary" />
@@ -76,7 +75,7 @@ ratio between largest and smallest eigenvalue." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -98,6 +97,9 @@ ratio between largest and smallest eigenvalue." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/bending_methods.html">Bending Methods</a>
+    </li>
     <li>
       <a href="../articles/getting_started_rvcetools.html">Getting Started with rvcetools</a>
     </li>
@@ -140,42 +142,69 @@ ratio between largest and smallest eigenvalue." />
 construct a matrix with this estimates by parts.
 This matrix is checked if she is positive definite or not.
 If this matrix is not positive definite, 2 functions may be called.
-If you put the paramter psOptionRatio = FALSE, makePD2() is called .
-For the parameter psOptionRatio = TRUE the function make_pd_rat_ev() is called.
+If pn_ratio == NULL, makePD2() is called, otherwise the function make_pd_rat_ev() is called.
 The difference is, that with make_pd_rat_ev() you have the option to whish a maximum
 ratio between largest and smallest eigenvalue.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>positivedefinit</span>(<span class='no'>psInputFile</span>, <span class='kw'>psOptionRatio</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>psRatio</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>pnDigits</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>positivedefinit</span>(<span class='no'>ps_input_file</span>, <span class='kw'>pn_ratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pmat_weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb_log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>plogger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>psInputFile</th>
+      <th>ps_input_file</th>
       <td><p>input csv-file</p></td>
     </tr>
     <tr>
-      <th>psOptionRatio</th>
-      <td><p>TRUE or FALSE (default) to indicate whether bending should be done based on ratio of largest to smallest eigenvalue</p></td>
+      <th>pn_ratio</th>
+      <td><p>maximum ratio between largest and smallest eigenvalue, determines whether ratio method is used or not</p></td>
     </tr>
     <tr>
-      <th>psRatio</th>
-      <td><p>maximum ratio between largest and smallest eigenvalue. Only relevant, if psOptionRatio == TRUE</p></td>
+      <th>pn_eps</th>
+      <td><p>lower limit of smallest eigenvalue</p></td>
     </tr>
     <tr>
-      <th>pnDigits</th>
+      <th>pmat_weight</th>
+      <td><p>weight matrix for weighted bending</p></td>
+    </tr>
+    <tr>
+      <th>pn_digits</th>
       <td><p>number of digits to which result will be rounded to</p></td>
+    </tr>
+    <tr>
+      <th>pb_log</th>
+      <td><p>indicator whether logs should be produced</p></td>
+    </tr>
+    <tr>
+      <th>plogger</th>
+      <td><p>log4r logger object</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>sInputFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>,<span class='st'>"VCE_results.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rvcetools"</span>)
+<span class='no'>ResultPD</span> <span class='kw'>&lt;-</span> <span class='fu'>positivedefinit</span>(<span class='kw'>ps_input_file</span> <span class='kw'>=</span> <span class='no'>sInputFile</span>)</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  type = <span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  traits = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  random_effect = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  estimate = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  STD_ERR_estimate = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  model_name = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  data_subset_number = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  used_seed = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  trait_combination = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>)</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

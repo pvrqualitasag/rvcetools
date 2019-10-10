@@ -6,6 +6,9 @@
 \usage{
 build_matrix(psInputFile, pbLog = FALSE)
 }
+\arguments{
+\item{psInputFile}{tibble containing all variance-covariance components}
+}
 \description{
 Storing the variance and covariances in the tibble read from the input file
 in a list of matrices.
@@ -15,4 +18,9 @@ in a list of matrices.
 title: Constructing multivariate estimates from analyses by parts in a matrix
 date:  "`r Sys.Date()`"
 ---
+}
+\examples{
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+tbl_vce <- read_vce(ps_input_file = sInputFile)
+l_mat <- build_matrix(psInputFile = tbl_vce)
 }

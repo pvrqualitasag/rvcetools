@@ -4,12 +4,12 @@
 \alias{makePD2}
 \title{Bending of Matrix A}
 \usage{
-makePD2(A, pnDigits = NA)
+makePD2(A, pn_digits = NULL)
 }
 \arguments{
 \item{A}{input matrix}
 
-\item{pnDigits}{number of digits to be rounded to}
+\item{pn_digits}{number of digits to be rounded to}
 }
 \value{
 Bended positive-definite matrix A

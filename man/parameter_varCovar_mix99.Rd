@@ -4,19 +4,26 @@
 \alias{parameter_varCovar_mix99}
 \title{Parameter File for Mix99}
 \usage{
-parameter_varCovar_mix99(psInputFile, psOptionRatio = FALSE,
-  psRatio = 100, psOutputFile, pnDigits = NA)
+parameter_varCovar_mix99(ps_input_file, ps_output_file, pn_ratio = NULL,
+  pn_eps = NULL, pmat_weight = NULL, pn_digits = NULL,
+  pb_log = FALSE, plogger = NULL)
 }
 \arguments{
-\item{psInputFile}{input csv-file}
+\item{ps_input_file}{input csv-file}
 
-\item{psOptionRatio}{TRUE or FALSE}
+\item{ps_output_file}{output txt-file}
 
-\item{psRatio}{number}
+\item{pn_ratio}{maximum ratio between largest and smallest eigenvalue, determines whether ratio method is used or not}
 
-\item{psOutputFile}{output txt-file}
+\item{pn_eps}{lower limit of smallest eigenvalue}
 
-\item{pnDigits}{number of digits to be rounded to}
+\item{pmat_weight}{weight matrix for weighted bending}
+
+\item{pn_digits}{number of digits to be rounded to}
+
+\item{pb_log}{indicator whether logs should be produced}
+
+\item{plogger}{log4r logger object}
 }
 \description{
 Read csv-file of the variance component estimates and construct
@@ -33,7 +40,17 @@ this function is building this paramter-file.
 }
 \examples{
 \dontrun{
+# use test input csv-file
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
-parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = 'par_varCovar_mix99.txt')
+# bend matrices using Schaeffer method
+parameter_varCovar_mix99(ps_input_file = sInputFile, ps_output_file = 'par_varCovar_mix99_schaeffer.txt')
+# bend matrices using ratio method
+parameter_varCovar_mix99(ps_input_file  = sInputFile, 
+                         ps_output_file = 'par_varCovar_mix99_ratio.txt',
+                         pn_ratio       = 100)
+# unweighted bending with minimum eigenvalue
+parameter_varCovar_mix99(ps_input_file  = sInputFile, 
+                         ps_output_file = 'par_varCovar_mix99_unweighted.txt',
+                         pn_eps         = 1e-4)
 }
 }

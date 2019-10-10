@@ -25,8 +25,61 @@ library(rvcetools)
 The package `rvcetools` is used to post-process and to work with results from programs that do variance components estimation (VCE). Initially, we limit our focus for result files from the program called `vce`. 
 
 
+## Package Usage
+One possible use case for this package is to produce an input parameter file for the prediction of breeding values. Because we are using `MiX99` to predict breeding values, the next subsection describes how to prepare a parameter input file for `MiX99`. 
+
+
+### Input For MiX99
+A parameter input file for `MiX99` can be produced using the function `parameter_varCovar_mix99()`. The function requires at least an input file with the results from the variance components estimation and an output file in which the parameters for the prediction of the breeding values are stored. Based on that a minimal call looks as follows
+
+```{r minimal-mix99-input, message=FALSE}
+sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+sMix99File <- file.path(tempdir(), 'mix99_output.txt')
+parameter_varCovar_mix99(ps_input_file = sInputFile, ps_output_file = sMix99File)
+```
+
+The above function call reads the variance-covariance matrices, checks whether they are positive definite or not. If they are not, the matrices are bent using the method described in the book by L. Schaeffer in chapter 7.4. The produced parameter file has the following structure. 
+
+```{r struct-mix99-input, echo=FALSE}
+vec_result <- readLines(con = file(sMix99File))
+file.remove(sMix99File)
+head(vec_result)
+```
+
+There are two more bending methods available in `rvcetools`. 
+
+1. bending based on an upper bound of the ratio of the largest to the smallest eigenvalue and
+2. weighted and unweighted bending described in a paper by Jorjani et al. 2003
+
+These two methods can be chosen by changing the parameters of the call to `parameter_varCovar_mix99()`. The eigenvalue **ratio** based method is applied with the following function call
+
+```{r ratio-bending, message=FALSE}
+parameter_varCovar_mix99(ps_input_file = sInputFile, ps_output_file = sMix99File, pn_ratio = 100)
+```
+
+The additional parameter `pn_ratio` specifies the maximal allowed ratio of the largest to the smallest eigenvalue. The structure of the output file is the same
+
+```{r struct-mix99-input-ratio, echo=FALSE}
+vec_result <- readLines(con = file(sMix99File))
+file.remove(sMix99File)
+head(vec_result)
+```
+
+**Unweighted** bending is used when specifying the parameter `pn_eps` which can be used to give a fixed value to the smallest eigenvalue of the resulting matrix.
+
+```{r unweighted-bending, message=FALSE}
+parameter_varCovar_mix99(ps_input_file = sInputFile, ps_output_file = sMix99File, pn_eps = 1e-4)
+```
+
+```{r rm-unweighted-output, echo=FALSE}
+file.remove(sMix99File)
+```
+
+The weighted version of the method can be used when specifying a weight matrix using the function parameter `pmat_weight`. The specified weight matrix must have the same dimension as the variance-covariance matrices. The current version allows only to specify one weight matrix for all variance-covariance matrices of the different random effects.
+
+
 ## Background
-Variance component estimation is the process of estimating scale parameters such as variance components from data. The parameter estimation uses linear mixed models to define the set of different random effects to which the observed variation should be attributed to. 
+Variance components estimation is the process of estimating scale parameters such as variance components from data. The parameter estimation uses linear mixed models to define the set of different random effects to which the observed variation should be attributed to. 
 
 Linear mixed effects models recently have gained some popularity outside of the area of animal breeding. But still there are not standard software packages around that can estimate variance components for very large datasets. Therefore, specialized softare programs are used for this task. These programs do not provide any features outside of the parameter estimation functionality. As a consequence of that results from the specialised programs must be read into systems such as R to do bending, plotting or other post-processing tasks. 
 
@@ -47,19 +100,6 @@ if (require(CodeDepends)){
 }
 ```
 
-
-## Package Input
-Currently the package can read VCE results from .csv files which are in a pre-defined format. For testing an example input file is included in the package available.
-
-```{r}
-(s_input <- system.file("extdata","VCE_results.csv", package = "rvcetools"))
-```
-
-The input data can be read using the function
-
-```{r read_vce, message=FALSE}
-(tbl_vce <- read_vce(psInputFile = s_input))
-```
 
 
 ## Conversion of Correlation to Covariance
@@ -85,91 +125,6 @@ In rare cases there might also be the interest of going the other way round. Hen
 
 ```{r}
 cor_to_cov(pmat_cor = mat_cor, pvec_var = diag(mat_vcov))
-```
-
-
-## Bending
-When building variance-covariance matrices from parameter estimation results, one problem might be that the resulting matrix is not positive definite. One solution to that problem might be a technique called bending. There are different approaches how bending can be implemented. An first intuitive approach is to decrease all off-diagonal elements by a small amount and to increase the diagonal elements also by some small quantity. This is done iteratively until the smallest eigenvalue of the resulting variance-covariance matrix is larger than some specified lower limit. 
-
-Alternatively, the eigenvalues below a certain threshold can be projected above that threshold leaving the ratios of the distances between the eigenvalues constant. This is implemented in the function `makePD2()`. Hence for a non-positive definite matrix containing estimation results, the following steps can be used to bend the matrix.
-
-```{r}
-(mat_npd <- matrix(data = c(100, 80, 20, 6, 80, 50, 10, 2, 20, 10, 6, 1, 6, 2, 1, 1), nrow = 4))
-```
-
-Based on the eigenvalues `mat_npd` is non-positive definite
-
-```{r}
-eigen(mat_npd, only.values = TRUE)$values
-```
-
-The matrix `mat_npd` can be bent using 
-
-```{r}
-(mat_bent1 <- makePD2(A = mat_npd))
-```
-
-As can be seen, the eigenvalues of the bent matrix are all positive, but the ratio between the smallest and the largest eigenvalue is big. 
-
-```{r}
-eigen(mat_bent1, only.values = TRUE)$values
-```
-
-If this ratio is of any concern, the second bending function `make_pd_rat_ev()` can be used which allows for the specification of a maximum ratio between smallest and largest eigenvalue.
-
-```{r}
-(mat_bent2 <- make_pd_rat_ev(A = mat_npd, pn_max_ratio = 100))
-```
-
-Leading to a much smaller range of eigenvalues as can be seen from the output below.
-
-```{r}
-eigen(mat_bent2, only.values = TRUE)$values
-```
-
-### Alternatives
-The `Matrix` package contains the function `nearPD` which according to its helpfile computes the nearest positive definite matrix. This function allows the specification of many more parameters. But from our experiences this can lead to the large change in a single matrix element. Furthermore, it is unclear whether it is possible to change more than one eigenvalue. 
-
-```{r}
-Matrix::nearPD(mat_npd)
-```
-
-
-## Input For MiX99
-In livestock breeding, variance components are required as input to predict breeding values. The software package MiX99 is used to predict breeding values. In this package `rvcetools`, the function `create_parameter_varCovar_mix99()` creates output that can be used as input for MiX99. The function `create_parameter_varCovar_mix99()` writes the post-processed variance components output in a tabular form to a file. The format of this output can be shown below.
-
-```{r exampleoutput, message=FALSE}
-sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
-ResultPD <- positivedefinit(psInputFile = sInputFile, pnDigits = 3)
-sMix99File <- file.path(tempdir(), 'mix99_output.txt')
-create_parameter_varCovar_mix99(pl_mat       = ResultPD,
-                                psOutputFile = sMix99File)
-vec_result <- readLines(con = file(sMix99File))
-file.remove(sMix99File)
-head(vec_result)
-```
-
-What is shown in the above code-junk can be done in one step using the function `parameter_varCovar_mix99()` with an input and an output file as parameter as shown below.
-
-```{r onestatement, message=FALSE}
-sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
-sMix99File <- file.path(tempdir(), 'mix99_output.txt')
-parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File, pnDigits = 3)
-vec_result <- readLines(con = file(sMix99File))
-file.remove(sMix99File)
-head(vec_result)
-```
-
-
-Using the bending approach that changes the ratios of the eigenvalues is shown below
-
-```{r bendratio, message=FALSE}
-sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
-sMix99File <- file.path(tempdir(), 'mix99_output.txt')
-parameter_varCovar_mix99(psInputFile = sInputFile, psOutputFile = sMix99File, psOptionRatio = TRUE, psRatio = 100)
-vec_result <- readLines(con = file(sMix99File))
-file.remove(sMix99File)
-head(vec_result)
 ```
 
 

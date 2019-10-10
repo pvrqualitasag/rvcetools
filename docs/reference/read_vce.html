@@ -70,7 +70,7 @@ from a csv-file and storing them in tibble." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -92,6 +92,9 @@ from a csv-file and storing them in tibble." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/bending_methods.html">Bending Methods</a>
+    </li>
     <li>
       <a href="../articles/getting_started_rvcetools.html">Getting Started with rvcetools</a>
     </li>
@@ -134,17 +137,17 @@ from a csv-file and storing them in tibble." />
 from a csv-file and storing them in tibble.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_vce</span>(<span class='no'>psInputFile</span>, <span class='kw'>pbLog</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>plogger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>read_vce</span>(<span class='no'>ps_input_file</span>, <span class='kw'>pb_log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>plogger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>psInputFile</th>
+      <th>ps_input_file</th>
       <td><p>name of the input file in csv-format</p></td>
     </tr>
     <tr>
-      <th>pbLog</th>
+      <th>pb_log</th>
       <td><p>flag indicating whether logging should be done</p></td>
     </tr>
     <tr>
@@ -157,7 +160,7 @@ from a csv-file and storing them in tibble.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># specify input file</span>
 <span class='no'>sInputFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>,<span class='st'>"VCE_results.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rvcetools"</span>)
-<span class='no'>tbl_vce</span> <span class='kw'>&lt;-</span> <span class='fu'>read_vce</span>(<span class='kw'>psInputFile</span> <span class='kw'>=</span> <span class='no'>sInputFile</span>)</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+<span class='no'>tbl_vce</span> <span class='kw'>&lt;-</span> <span class='fu'>read_vce</span>(<span class='kw'>ps_input_file</span> <span class='kw'>=</span> <span class='no'>sInputFile</span>)</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  type = <span style='color: #BB0000;'>col_character()</span><span>,</span>
 #&gt; <span class='message'>  traits = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>

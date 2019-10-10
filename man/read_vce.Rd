@@ -4,12 +4,12 @@
 \alias{read_vce}
 \title{Reading VCE Results From CSV File}
 \usage{
-read_vce(psInputFile, pbLog = FALSE, plogger = NULL)
+read_vce(ps_input_file, pb_log = FALSE, plogger = NULL)
 }
 \arguments{
-\item{psInputFile}{name of the input file in csv-format}
+\item{ps_input_file}{name of the input file in csv-format}
 
-\item{pbLog}{flag indicating whether logging should be done}
+\item{pb_log}{flag indicating whether logging should be done}
 
 \item{plogger}{logger object from outside}
 }
@@ -20,5 +20,5 @@ from a csv-file and storing them in tibble.
 \examples{
 # specify input file
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
-tbl_vce <- read_vce(psInputFile = sInputFile)
+tbl_vce <- read_vce(ps_input_file = sInputFile)
 }

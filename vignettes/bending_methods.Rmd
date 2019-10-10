@@ -1,0 +1,117 @@
+---
+title: "Bending Methods"
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Bending Methods}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rvcetools)
+```
+
+## Background
+When building variance-covariance matrices from parameter estimation results, one problem might be that the resulting matrix is not positive definite. One solution to that problem might be a technique called bending. There are different approaches how bending can be implemented. 
+
+
+## Different Approaches
+An first intuitive approach is to decrease all off-diagonal elements by a small amount and to increase the diagonal elements also by some small quantity. This is done iteratively until the smallest eigenvalue of the resulting variance-covariance matrix is larger than some specified lower limit. 
+
+
+## Schaeffer Method
+Alternatively, the eigenvalues below a certain threshold can be projected above that threshold leaving the ratios of the distances between the eigenvalues constant. This is implemented in the function `makePD2()`. Hence for a non-positive definite matrix containing estimation results, the following steps can be used to bend the matrix.
+
+```{r}
+(mat_npd <- matrix(data = c(100, 80, 20, 6, 80, 50, 10, 2, 20, 10, 6, 1, 6, 2, 1, 1), nrow = 4))
+```
+
+Based on the eigenvalues `mat_npd` is non-positive definite
+
+```{r}
+eigen(mat_npd, only.values = TRUE)$values
+```
+
+The matrix `mat_npd` can be bent using 
+
+```{r}
+(mat_bent1 <- makePD2(A = mat_npd))
+```
+
+As can be seen, the eigenvalues of the bent matrix are all positive, but the ratio between the smallest and the largest eigenvalue is big. 
+
+```{r}
+eigen(mat_bent1, only.values = TRUE)$values
+```
+
+
+## Ratio of Eigenvalues
+If this ratio is of any concern, the second bending function `make_pd_rat_ev()` can be used which allows for the specification of a maximum ratio between smallest and largest eigenvalue.
+
+```{r}
+(mat_bent2 <- make_pd_rat_ev(A = mat_npd, pn_max_ratio = 100))
+```
+
+Leading to a much smaller range of eigenvalues as can be seen from the output below.
+
+```{r}
+eigen(mat_bent2, only.values = TRUE)$values
+```
+
+
+## Jorjani Method
+In Jorjani et al. 2003, the authors described **weighted** and **unweighted** bending. The unweighted version allows the user to specify a minimum eigenvalue. All eigenvalues of the input matrix that are smaller are just set to this minimum. Then the result matrix is reconstructed using the eigenvector-eigenvalue decomposition with the modified eigenvalues. This can be done as follows
+
+```{r bend-jorjani}
+(mat_input <- matrix(data = c(100,95,80,40,40,
+                                   95,100,95,80,40,
+                                   80,95,100,95,80,
+                                   40,80,95,100,95,
+                                   40,40,80,95,100), ncol = 5))
+mat_uw <- make_pd_weight(mat_input, pn_eps = 1e-4)
+```
+
+Rounding the result to one decimal digit leads to
+
+```{r}
+round(mat_uw, digits = 1)
+```
+
+In case there are information about the estimation error of the different variance components, these can be specified by a weight matrix which can be specified using 
+
+```{r}
+mat_weight <- matrix(data = c(1000,500,20,50,200,
+                               500, 1000,500,5,50,
+                               20, 500, 1000,20,20,
+                               50, 5, 20, 1000,200,
+                               200, 50, 20, 200,1000), ncol = 5)
+mat_w <- make_pd_weight(mat_input, pn_eps = 1e-4, pmat_weight = mat_weight)
+round(mat_w, digits = 1)
+```
+
+
+## Alternatives
+The `Matrix` package contains the function `nearPD` which according to its helpfile computes the nearest positive definite matrix. This function allows the specification of many more parameters. But from our experiences this can lead to the large change in a single matrix element. Furthermore, it is unclear whether it is possible to change more than one eigenvalue. 
+
+```{r}
+Matrix::nearPD(mat_npd)
+```
+
+
+
+# Session Info
+```{r}
+sessionInfo()
+```
+
+# Latest Update
+`r paste(Sys.time(),paste0("(", Sys.info()[["user"]],")" ))`

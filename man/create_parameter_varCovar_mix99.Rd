@@ -4,12 +4,12 @@
 \alias{create_parameter_varCovar_mix99}
 \title{Build Parameter with Variances and Covariances for Mix99}
 \usage{
-create_parameter_varCovar_mix99(pl_mat, psOutputFile, pbLog = FALSE)
+create_parameter_varCovar_mix99(pl_mat, ps_output_file, pbLog = FALSE)
 }
 \arguments{
 \item{pl_mat}{list of matrices}
 
-\item{psOutputFile}{output file to which MiX99 parameters should be written to}
+\item{ps_output_file}{output file to which MiX99 parameters should be written to}
 
 \item{pbLog}{flag for logging}
 }

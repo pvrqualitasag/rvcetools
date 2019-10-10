@@ -13,7 +13,7 @@
 #' the smallest positive eigen-value.
 #'
 #' @param A input matrix
-#' @param pnDigits number of digits to be rounded to
+#' @param pn_digits number of digits to be rounded to
 #'
 #' @return Bended positive-definite matrix A
 #' @export makePD2
@@ -21,12 +21,16 @@
 #' @examples
 #' G<- matrix(c(100,80,20,6,80,50,10,2,20,10,6,1,6,2,1,1), ncol = 4, byrow=TRUE)
 #' makePD2(G)
-makePD2 <- function(A, pnDigits = NA){
+makePD2 <- function(A, pn_digits = NULL){
   # compute eigenvalue-eigenvector decomposition
   D  <-  eigen(A)
   # assign separate values
   V <- D$values
   U <- D$vectors
+  # return orignal matrix, if A is positive definite
+  if (min(V) > 0)
+    return(A)
+  # get the dimensions of A
   N <- nrow(A)
   # determine number of negative eigenvalues and sum twice the negative ev
   nneg <- sum(V < 0)
@@ -38,13 +42,18 @@ makePD2 <- function(A, pnDigits = NA){
   # correct the negative eigenvalues
   V[which(V < 0)] <- p * (sr - vec_neg_ev) * (sr - vec_neg_ev) / wr
   # reconstruct A from eval-evec-decomposition and return
-  if (is.na(pnDigits)){
+  if (is.null(pn_digits)){
     result_mat <- U %*% diag(V) %*% t(U)
   } else {
-    result_mat <- round(U %*% diag(V) %*% t(U), digits = pnDigits)
+    result_mat <- round(U %*% diag(V) %*% t(U), digits = pn_digits)
     if (min(eigen(result_mat, only.values = TRUE)$values) < 0)
       stop(" * ERROR: makePD2: result matrix not positive definite after rounding")
   }
+  # issue a warning, if smallest eigenvalue of bended matrix is very small
+  if (min(eigen(result_mat, only.values = TRUE)$values) < sqrt(.Machine$double.eps))
+    warning(" * WARNING: makePD2: Smallest eigenvalue less than: ", 
+            sqrt(.Machine$double.eps), 
+            " => use alternative bending method.")
   # add row and col-names back to result matrix
   colnames(result_mat) <- colnames(A)
   rownames(result_mat) <- rownames(A)
@@ -52,7 +61,7 @@ makePD2 <- function(A, pnDigits = NA){
 }
 
 
-#' @title Bending of Matrix A with Ratio
+#' @title Bending Matrix A Based On Ratio Of Eigenvalues
 #'
 #' @description
 #' ## Parametrisation
@@ -81,11 +90,11 @@ makePD2 <- function(A, pnDigits = NA){
 #' ratio between largest and smallest eigenvalue.
 #' @param A input matrix
 #' @param pn_max_ratio max ratio
-#' @param pnDigits number of digits to be rounded to
+#' @param pn_digits number of digits to be rounded to
 #'
 #' @return Bended positive-definite matrix A with ratio
 #' @export make_pd_rat_ev
-make_pd_rat_ev <- function(A, pn_max_ratio, pnDigits = NA){
+make_pd_rat_ev <- function(A, pn_max_ratio, pn_digits = NULL){
   # get eigenvalue/eigenvector decomposition
   D <- eigen(A)
   # assign eigenvectors and eigen values to separate variables
@@ -117,13 +126,18 @@ make_pd_rat_ev <- function(A, pn_max_ratio, pnDigits = NA){
   # correct according to the range ratios
   vec_eval[vec_idx_ev_out] <- n_last_ev_not_corrected - (n_last_ev_not_corrected - vec_eval[vec_idx_ev_out]) * n_range_rat
   # reconstruct matrix
-  if (is.na(pnDigits)){
+  if (is.null(pn_digits)){
     result_mat <-mat_evec %*% diag(vec_eval) %*% t(mat_evec)
   } else {
-    result_mat <- round(mat_evec %*% diag(vec_eval) %*% t(mat_evec), digits = pnDigits)
+    result_mat <- round(mat_evec %*% diag(vec_eval) %*% t(mat_evec), digits = pn_digits)
     if (min(eigen(result_mat, only.values = TRUE)$values) < 0)
       stop(" * ERROR: make_pd_rat_ev: result matrix not positive definite after rounding")
   }
+  # issue a warning, if smallest eigenvalue of bended matrix is very small
+  if (min(eigen(result_mat, only.values = TRUE)$values) < sqrt(.Machine$double.eps))
+    warning(" * WARNING: make_pd_rat_ev: Smallest eigenvalue less than: ", 
+            sqrt(.Machine$double.eps), 
+            " => increase ratio or use alternative bending method.")
   # add row and col-names back to result matrix
   colnames(result_mat) <- colnames(A)
   rownames(result_mat) <- rownames(A)
@@ -147,6 +161,7 @@ make_pd_rat_ev <- function(A, pn_max_ratio, pnDigits = NA){
 #' @param A input matrix
 #' @param pmat_weight weight matrix
 #' @param pn_eps smallest accepted eigenvalue
+#' @param number of digits to be rounded to
 #'
 #' @return mat_result bended matrix
 #' @export make_pd_weight
@@ -158,8 +173,9 @@ make_pd_rat_ev <- function(A, pn_max_ratio, pnDigits = NA){
 #' make_pd_weight(mat_test_jorjani)
 make_pd_weight <- function(A, 
                            pmat_weight = matrix(1, nrow = nrow(A), ncol = ncol(A)), 
-                           pn_eps = 1e-4,
-                           pn_max_iter = 1e6){
+                           pn_eps      = 1e-4,
+                           pn_max_iter = 1e6, 
+                           pn_digits   = NULL){
   # intializse result matrix
   mat_result <- A
   # get eigenvalue/eigenvector decomposition
@@ -192,6 +208,20 @@ make_pd_weight <- function(A,
     mat_evec <- D$vectors
     nnr_iter <- nnr_iter + 1
   }
+  if (!is.null(pn_digits)){
+    mat_result <- round(mat_result, digits = pn_digits)    
+    if (min(eigen(mat_result, only.values = TRUE)$values) < 0)
+      stop(" * ERROR: make_pd_weight: result matrix not positive definite after rounding")
+  }
+  # issue a warning, if smallest eigenvalue of bended matrix is very small
+  if (min(eigen(mat_result, only.values = TRUE)$values) < sqrt(.Machine$double.eps))
+    warning(" * WARNING: make_pd_weight: Smallest eigenvalue less than: ", 
+            sqrt(.Machine$double.eps), 
+            " => change weight or use alternative bending method.")
+  # add row and col-names back to result matrix
+  colnames(mat_result) <- colnames(A)
+  rownames(mat_result) <- rownames(A)
+  # return result
   return(mat_result)
   
 }
@@ -203,49 +233,111 @@ make_pd_weight <- function(A,
 #' @title Bending of a List of Matrices for Different Random Effects
 #' 
 #' @description 
+#' Given a list of variance-covariance matrices passed by the parameter \code{pl_mat}, 
+#' each of the matrices is checked whether it is positive definite based on the smallest 
+#' eigenvalue of the matrix. Non-positive definite matrices are bent using a method 
+#' that is determined based on the parameters given. If the function is called with 
+#' just the list of matrices, then the Schaeffer method is used using the function 
+#' \code{makePD2()}. Specifing a ratio between largest and smallest eigenvalue using 
+#' the parameter \code{pn_ratio} causes the usage of the ratio method. When specifying 
+#' a minimal eigenvalue using parameter \code{pn_eps}, the method of Jorjani et al. 
+#' 2003 is used. This method exists in a weighted and an unweighted version. Which 
+#' of the two versions is used is determined by the parameter pmat_weight. When a 
+#' weight matrix is given via \code{pmat_weight} the weighted version is used, otherwise 
+#' the unweighted version is used.
 #' 
-#' 
-#' @param psInputFile 
-#' @param psOptionRatio 
-#' @param psRatio 
-#' @param pnDigits  number of digits to be rounded to
-#' @param pbLog 
+#' @param pl_mat list of input matrices which are bent if necessary
+#' @param pn_ratio specified ratio between largest and smallest eigenvalue 
+#' @param pn_eps smallest eigenvalue in weighted bending
+#' @param pmat_weight weight matrix for weighted bending
+#' @param pn_digits  number of digits to be rounded to
+#' @param pb_log indicator flag for logging
+#' @param plogger log4r object to log to
 #'
 #' @export check_transform_positivedefinit
-check_transform_positivedefinit <- function(psInputFile,
-                                            psOptionRatio,
-                                            psRatio,
-                                            pnDigits,
-                                            pbLog = FALSE){
+check_transform_positivedefinit <- function(pl_mat,
+                                            pn_ratio    = NULL,
+                                            pn_eps      = NULL,
+                                            pmat_weight = NULL,
+                                            pn_digits    = NULL,
+                                            pb_log       = FALSE,
+                                            plogger     = NULL){
  
+  ### # setup of loging
+  if (pb_log) {
+    if (is.null(plogger)){
+      lgr <- get_rvce_logger(ps_logfile = 'check_transform_positivedefinit.log', ps_level = 'INFO')
+    } else {
+      lgr <- plogger
+    }
+    rvce_log_info(lgr, 'check_transform_positivedefinit', 
+                  paste0('Started function with parameters: \n  * pn_ratio: ', pn_ratio, '\n',
+                         ' * pn_eps: ', pn_eps, '\n',
+                         ' * pn_digits: ', pn_digits, '\n', collapse = ''))
+  }
+  
   ### # get names of random effects from names of list of input variance-covariance matrices
-  vec_randomEffect_name <- names(psInputFile)
+  vec_randomEffect_name <- names(pl_mat)
   ### # Check if matrix is positive definite
   PDresultList <- NULL
   for(Z in vec_randomEffect_name){
+    # log message on which random effect is used
+    if (pb_log)
+      rvce_log_info(lgr, 'check_transform_positivedefinit',
+                    paste0('Checking variance-covariance matrix for effect: ', Z))
 
     # compute eigenvalue decomposition
-    D  <-  eigen(psInputFile[[Z]])
+    D  <-  eigen(pl_mat[[Z]])
     # assign separate values
     V <- D$values
-    # determine if negative eigenvalues are available
-    if(sum(V < 0) == 0){
+    # determine if matrix pl_mat[[Z]] has negative eigenvalues
+    if(sum(V < 0) < 1){
+      if (pb_log)
+        rvce_log_info(lgr, 'check_transform_positivedefinit',
+                      paste0('No negative eigenvalue found: ', sum(V < 0)))
       ### # no negative eigenvalues are available, do rounding if required
-      if (is.na(pnDigits)){
-        PDresultList[[Z]] <- psInputFile[[Z]]        
+      if (is.null(pn_digits)){
+        PDresultList[[Z]] <- pl_mat[[Z]]        
       } else {
-        PDresultList[[Z]] <- round(psInputFile[[Z]], digits = pnDigits)
+        PDresultList[[Z]] <- round(pl_mat[[Z]], digits = pn_digits)
       }
 
-    }else{
-      ### # Min one eigenvalue is negative, so  which function is choosen
-      if(psOptionRatio == TRUE){
-        # Run function make_pd_rat_ev with parameter psRatio
-          PDresultList[[Z]] <- make_pd_rat_ev(psInputFile[[Z]], pn_max_ratio = psRatio, pnDigits = pnDigits)
-        }else{
-        # Run function makePD2
-        # Optimized function of Schaeffer
-          PDresultList[[Z]] <- makePD2(psInputFile[[Z]], pnDigits = pnDigits)
+    } else {
+      ### # at least one eigenvalue is negative, so matrix must be bent, 
+      ### #  method is chosen based on parameters.
+      if(is.null(pn_ratio) && is.null(pn_eps)){
+        if (pb_log)
+          rvce_log_info(lgr, 'check_transform_positivedefinit', 'Bending with Schaeffer')
+        
+        # Run function makePD2 which is an vectorized version of Schaeffer
+        PDresultList[[Z]] <- makePD2(pl_mat[[Z]], pn_digits = pn_digits)
+      } else {
+        ### # either bending based on eigenvalue ratios or based on minimal eigenvalue 
+        ### #  (weighted or unweighted) is chosen here
+        if (is.null(pn_eps)){
+          if (pb_log)
+            rvce_log_info(lgr, 'check_transform_positivedefinit', 
+                          paste0('Bending with eigenvalue ratio: ', pn_ratio))
+          # Run function make_pd_rat_ev with parameter pn_ratio
+          PDresultList[[Z]] <- make_pd_rat_ev(pl_mat[[Z]], pn_max_ratio = pn_ratio, pn_digits = pn_digits)
+        } else {
+          ### # in case no weight matrix is specified, then matrix is bent based on a lower bound of eigenvalues 
+          if (is.null(pmat_weight)){
+            if (pb_log)
+              rvce_log_info(lgr, 'check_transform_positivedefinit', 
+                            paste0('Unweighted bending with minimal eigenvalue: ', pn_eps))
+            PDresultList[[Z]] <- make_pd_weight(pl_mat[[Z]], pn_eps = pn_eps, pn_digits = pn_digits)
+          } else {
+            ### # case of weighted bending
+            if (pb_log)
+              rvce_log_info(lgr, 'check_transform_positivedefinit', 
+                            paste0('Weighted bending with minimal eigenvalue: ', pn_eps))
+            PDresultList[[Z]] <- make_pd_weight(pl_mat[[Z]], 
+                                                pn_eps = pn_eps, 
+                                                pmat_weight = pmat_weight, 
+                                                pn_digits = pn_digits)
+          }
+        }
       }
     }
   }

@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rvcetools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -89,6 +89,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/bending_methods.html">Bending Methods</a>
+    </li>
     <li>
       <a href="../articles/getting_started_rvcetools.html">Getting Started with rvcetools</a>
     </li>
@@ -125,40 +128,50 @@
       <small>Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="rvcetools-0-0-5" class="section level1">
-<h1 class="page-header">
-<a href="#rvcetools-0-0-5" class="anchor"></a>rvcetools 0.0.5</h1>
+    <div id="rvcetools-0-0-6" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rvcetools-0-0-6" class="anchor"></a>rvcetools 0.0.6</h2>
+<ul>
+<li>Remove redundant function arguments with respect to specifying which bending method should be used</li>
+<li>Added a number of unit tests for bending and parameter input creation</li>
+<li>Moved the description of bending methods to a separate article</li>
+<li>Re-structured the <code>Getting Started</code> article to first show how parameter input files for <code>MiX99</code> are generated</li>
+</ul>
+</div>
+    <div id="rvcetools-0-0-5" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rvcetools-0-0-5" class="anchor"></a>rvcetools 0.0.5</h2>
 <ul>
 <li>Implemented bending method described in <a href="https://www.journalofdairyscience.org/article/S0022-0302(03)73646-7/fulltext">Jorjani et al. 2003</a>
 </li>
 </ul>
 </div>
-    <div id="rvcetools-0-0-4" class="section level1">
-<h1 class="page-header">
-<a href="#rvcetools-0-0-4" class="anchor"></a>rvcetools 0.0.4</h1>
+    <div id="rvcetools-0-0-4" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rvcetools-0-0-4" class="anchor"></a>rvcetools 0.0.4</h2>
 <ul>
 <li>Fixed bugs with rounding. Removed formatted output with restricting the number of digits from the output. The only formating that is done in the output is setting the scientific format to <code>FALSE</code>.</li>
 <li>Suppressed the warnings caused by splitting the input into two traits where in some records only one trait was present.</li>
 </ul>
 </div>
-    <div id="rvcetools-0-0-3" class="section level1">
-<h1 class="page-header">
-<a href="#rvcetools-0-0-3" class="anchor"></a>rvcetools 0.0.3</h1>
+    <div id="rvcetools-0-0-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rvcetools-0-0-3" class="anchor"></a>rvcetools 0.0.3</h2>
 <ul>
 <li>Added feature of rounding components of variance-covariance matrices. The rounding is done inside of the different bending function. After the bending procedure which changes the eigenvalues, the resulting matrix is reconstructed. The components of this re-constructed result matrix are rounded just before it is returned. The eigenvalues of the rounded result matrix are checked and if one is negative, the program stops with an error. For all matrices that do not require bending the rounding is applied on the original matrices.</li>
 <li>Corrected bug of loosing row- and column-names after bending functions.</li>
 </ul>
 </div>
-    <div id="rvcetools-0-0-2" class="section level1">
-<h1 class="page-header">
-<a href="#rvcetools-0-0-2" class="anchor"></a>rvcetools 0.0.2</h1>
+    <div id="rvcetools-0-0-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rvcetools-0-0-2" class="anchor"></a>rvcetools 0.0.2</h2>
 <ul>
 <li>Removed un-needed support for Rcpp</li>
 </ul>
 </div>
-    <div id="rvcetools-0-0-1" class="section level1">
-<h1 class="page-header">
-<a href="#rvcetools-0-0-1" class="anchor"></a>rvcetools 0.0.1</h1>
+    <div id="rvcetools-0-0-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rvcetools-0-0-1" class="anchor"></a>rvcetools 0.0.1</h2>
 <ul>
 <li>Initial version</li>
 </ul>
@@ -169,6 +182,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rvcetools-0-0-6">0.0.6</a></li>
         <li><a href="#rvcetools-0-0-5">0.0.5</a></li>
         <li><a href="#rvcetools-0-0-4">0.0.4</a></li>
         <li><a href="#rvcetools-0-0-3">0.0.3</a></li>

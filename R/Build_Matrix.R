@@ -15,7 +15,14 @@
 #' @importFrom dplyr summarise
 #' @importFrom tidyr separate
 #' @importFrom dplyr group_by
+#' 
+#' @param psInputFile tibble containing all variance-covariance components
 #' @export build_matrix
+#' 
+#' @examples 
+#' sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
+#' tbl_vce <- read_vce(ps_input_file = sInputFile)
+#' l_mat <- build_matrix(psInputFile = tbl_vce)
 build_matrix <- function(psInputFile,
                          pbLog = FALSE){
 

@@ -2,16 +2,16 @@
 % Please edit documentation in R/MakePD.R
 \name{make_pd_rat_ev}
 \alias{make_pd_rat_ev}
-\title{Bending of Matrix A with Ratio}
+\title{Bending Matrix A Based On Ratio Of Eigenvalues}
 \usage{
-make_pd_rat_ev(A, pn_max_ratio, pnDigits = NA)
+make_pd_rat_ev(A, pn_max_ratio, pn_digits = NULL)
 }
 \arguments{
 \item{A}{input matrix}
 
 \item{pn_max_ratio}{max ratio}
 
-\item{pnDigits}{number of digits to be rounded to}
+\item{pn_digits}{number of digits to be rounded to}
 }
 \value{
 Bended positive-definite matrix A with ratio
