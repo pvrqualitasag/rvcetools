@@ -16,19 +16,18 @@
 #' @importFrom tidyr separate
 #' @importFrom dplyr group_by
 #' 
-#' @param psInputFile tibble containing all variance-covariance components
+#' @param ps_input_tibble tibble containing all variance-covariance components
 #' @export build_matrix
 #' 
 #' @examples 
 #' sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 #' tbl_vce <- read_vce(ps_input_file = sInputFile)
-#' l_mat <- build_matrix(psInputFile = tbl_vce)
-build_matrix <- function(psInputFile,
-                         pbLog = FALSE){
+#' l_mat <- build_matrix(ps_input_tibble = tbl_vce)
+build_matrix <- function(ps_input_tibble){
 
   ### # Build Matrix
   # Get variance and covariance informations in a tibble
-  tbl_varCovar <- psInputFile %>% filter(type == "variance" | type == "covariance") %>% select(type,traits,random_effect,estimate)
+  tbl_varCovar <- ps_input_tibble %>% filter(type == "variance" | type == "covariance") %>% select(type,traits,random_effect,estimate)
   # Split traits into trait 1 and trait 2, some records have only 1 trait, which causes `separate()` to issue a warning which 
   # is suppressed here
   suppressWarnings( tbl_varCovar <- tbl_varCovar %>% separate(traits, c('trait', 'surrogate'), remove = FALSE) )
@@ -50,7 +49,7 @@ build_matrix <- function(psInputFile,
   colnames(mat_randomEffect) <- vec_trait_name
   vec_randomEffect_name <- unique(smry$random_effect)
 
-  resultList <- NULL
+  resultList <- list()
   for(Z in vec_randomEffect_name){
     # take only values for a random effect
     smry_Z <- smry %>% filter(random_effect == Z)
@@ -65,5 +64,4 @@ build_matrix <- function(psInputFile,
 
   ### # Result of matrix as list
   return(resultList)
-
 }

@@ -11,7 +11,7 @@
 #' 
 #' 
 #' @param pl_mat list of matrices
-#' @param ps_output_file output file to which MiX99 parameters should be written to 
+#' @param ps_output_file output file to which MiX99 parameters should be written to
 #' @param pbLog flag for logging
 #'
 #'
@@ -69,9 +69,10 @@ create_parameter_varCovar_mix99 <- function(pl_mat,
 #' this function is building this paramter-file.
 #'
 #' @param ps_input_file input csv-file
-#' @param ps_output_file output txt-file
+#' @param ps_output_file output txt-file for the bended (co-)variances
+#' @param ps_raw_output_file output txt-file for the raw (co-)variances
 #' @param pn_ratio  maximum ratio between largest and smallest eigenvalue, determines whether ratio method is used or not
-#' @param pn_eps lower limit of smallest eigenvalue    
+#' @param pn_eps lower limit of smallest eigenvalue
 #' @param pmat_weight weight matrix for weighted bending
 #' @param pn_digits number of digits to be rounded to
 #' @param pb_log indicator whether logs should be produced
@@ -95,12 +96,13 @@ create_parameter_varCovar_mix99 <- function(pl_mat,
 #' @export parameter_varCovar_mix99
 parameter_varCovar_mix99 <- function(ps_input_file,
                                      ps_output_file,
-                                     pn_ratio       = NULL,  
-                                     pn_eps         = NULL,
-                                     pmat_weight    = NULL,
-                                     pn_digits      = NULL,
-                                     pb_log         = FALSE,
-                                     plogger        = NULL){
+                                     ps_raw_output_file = NULL,
+                                     pn_ratio           = NULL,
+                                     pn_eps             = NULL,
+                                     pmat_weight        = NULL,
+                                     pn_digits          = NULL,
+                                     pb_log             = FALSE,
+                                     plogger            = NULL){
 
   if (pb_log){
     if (is.null(plogger)){
@@ -116,22 +118,63 @@ parameter_varCovar_mix99 <- function(ps_input_file,
                          ' * pn_eps: ', pn_eps, '\n',
                          ' * pn_digits: ', pn_digits, collapse = ''))
   }
-  
+
+
+  ### # Read the results of variance component estimations
+  if (pb_log) {
+    rvce_log_info(lgr, 'parameter_varCovar_mix99',
+                  paste0('Reading input from file: ', ps_input_file, '\n'))
+  }
+  RawVCTibble <- read_vce(ps_input_file = ps_input_file,
+                          pb_log        = pb_log,
+                          plogger       = lgr)
+  if (pb_log) {
+    rvce_log_info(lgr, 'parameter_varCovar_mix99',
+                  paste0('Number of records read: ', nrow(RawVCTibble), 
+                         'Number of columns: ', ncol(RawVCTibble), collapse = ''))
+  }
+
+
+  ### # Run function build_matrix
+  if (pb_log) {
+    rvce_log_info(lgr, 'parameter_varCovar_mix99', 
+                  'Convert input tibble to list of matrices')
+  }
+  RawMatrixAsList <- build_matrix(ps_input_tibble = RawVCTibble)
+  if (pb_log) {
+    rvce_log_info(lgr, 'parameter_varCovar_mix99',
+                  paste0('Number of random effects: ', length(RawMatrixAsList)))
+  }
+
+
+  ### # Write original (co-)variances to a file, if specified
+  if (! is.null(ps_raw_output_file)) {
+    if (pb_log) {
+      rvce_log_info(lgr, 'parameter_varCovar_mix99', 'Writing raw (co-)variances to output file ...')
+    }
+    create_parameter_varCovar_mix99(pl_mat         = RawMatrixAsList,
+                                    ps_output_file = ps_raw_output_file)
+  }
+
+
   ### # Check or Transfrom Matrix if necessary to insure beeing Positive Definit
-  if (pb_log)
-    rvce_log_info(lgr, 'parameter_varCovar_mix99', 'Checking variance covariance matrices to be pdf ...')
-  ResultPD <- positivedefinit(ps_input_file = ps_input_file,
-                              pn_ratio      = pn_ratio,
-                              pn_eps        = pn_eps,
-                              pmat_weight   = pmat_weight,
-                              pn_digits     = pn_digits,
-                              pb_log        = pb_log,
-                              plogger       = lgr )
-                              
+  if (pb_log) {
+    rvce_log_info(lgr, 'parameter_varCovar_mix99',
+                  'Checking matrices to be pdf')
+  }
+  ResultPD <- check_transform_positivedefinit(pl_mat      = RawMatrixAsList,
+                                              pn_ratio    = pn_ratio,
+                                              pn_eps      = pn_eps, 
+                                              pmat_weight = pmat_weight,
+                                              pn_digits   = pn_digits,
+                                              pb_log      = pb_log,
+                                              plogger     = lgr)
+
+
   ### # Build Parameter-File in txt-Format with Variances for Mix99
   if (pb_log)
     rvce_log_info(lgr, 'parameter_varCovar_mix99', 'Writing processed matrices to mix99 parameter file ...')
+
   create_parameter_varCovar_mix99(pl_mat         = ResultPD,
                                   ps_output_file = ps_output_file)
-
 }

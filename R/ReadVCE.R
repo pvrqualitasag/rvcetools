@@ -15,7 +15,7 @@
 #' sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 #' tbl_vce <- read_vce(ps_input_file = sInputFile)
 read_vce <- function(ps_input_file,
-                     pb_log   = FALSE,
+                     pb_log = FALSE,
                      plogger = NULL){
 
   if (pb_log) {
@@ -25,30 +25,40 @@ read_vce <- function(ps_input_file,
       lgr <- plogger
     }
   }
+
+
   ### # Read all VCE results
-  if (pb_log) 
+  if (pb_log) {
     rvce_log_info(plogger   = lgr,
                   ps_caller = 'read_vce', 
                   ps_msg    = paste0('Reading from input file: ', ps_input_file))
+  }
   tbl_vce <- readr::read_delim(file = ps_input_file, delim = ";")
-  if (pb_log) 
+  if (pb_log) {
     rvce_log_info(plogger   = lgr,
                   ps_caller = 'read_vce', 
                   ps_msg    = paste0('Number of records read: ', nrow(tbl_vce)))
+  }
+
+
   # Transform "---" to 0 coming from VCE software some times
   tbl_vce$estimate[tbl_vce$estimate == "---"] <- "0"
-  if (pb_log) 
+  if (pb_log) {
     rvce_log_info(plogger   = lgr,
                   ps_caller = 'read_vce', 
                   ps_msg    = 'Missing estimates replaced with 0')
+  }
+
+
   # Transform estimates to numeric
-  tbl_vce$estimate <- as.numeric(as.character(tbl_vce$estimate))  
-  if (pb_log) 
+  tbl_vce$estimate <- as.numeric(as.character(tbl_vce$estimate))
+  if (pb_log) {
     rvce_log_info(plogger   = lgr,
                   ps_caller = 'read_vce', 
                   ps_msg    = 'Column of estimates converted to numeric values')
+  }
+
 
   ### # Resulting tibble
   return(tbl_vce)
-
 }

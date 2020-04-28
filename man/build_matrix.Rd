@@ -4,10 +4,10 @@
 \alias{build_matrix}
 \title{Convert Variance-Covariance Stored in Tibble to a List of matrices}
 \usage{
-build_matrix(psInputFile, pbLog = FALSE)
+build_matrix(ps_input_tibble)
 }
 \arguments{
-\item{psInputFile}{tibble containing all variance-covariance components}
+\item{ps_input_tibble}{tibble containing all variance-covariance components}
 }
 \description{
 Storing the variance and covariances in the tibble read from the input file
@@ -22,5 +22,5 @@ date:  "`r Sys.Date()`"
 \examples{
 sInputFile <- system.file("extdata","VCE_results.csv", package = "rvcetools")
 tbl_vce <- read_vce(ps_input_file = sInputFile)
-l_mat <- build_matrix(psInputFile = tbl_vce)
+l_mat <- build_matrix(ps_input_tibble = tbl_vce)
 }
