@@ -271,7 +271,7 @@ check_transform_positivedefinit <- function(pl_mat,
       lgr <- plogger
     }
     rvce_log_info(lgr, 'check_transform_positivedefinit', 
-                  paste0('Started function with parameters: \n  * pn_ratio: ', pn_ratio, '\n',
+                  paste0('Started function with parameters: \n * pn_ratio: ', pn_ratio, '\n',
                          ' * pn_eps: ', pn_eps, '\n',
                          ' * pn_digits: ', pn_digits, '\n', collapse = ''))
   }
@@ -279,7 +279,7 @@ check_transform_positivedefinit <- function(pl_mat,
   ### # get names of random effects from names of list of input variance-covariance matrices
   vec_randomEffect_name <- names(pl_mat)
   ### # Check if matrix is positive definite
-  PDresultList <- NULL
+  PDresultList <- list()
   for(Z in vec_randomEffect_name){
     # log message on which random effect is used
     if (pb_log)
@@ -297,7 +297,7 @@ check_transform_positivedefinit <- function(pl_mat,
                       paste0('No negative eigenvalue found: ', sum(V < 0)))
       ### # no negative eigenvalues are available, do rounding if required
       if (is.null(pn_digits)){
-        PDresultList[[Z]] <- pl_mat[[Z]]        
+        PDresultList[[Z]] <- pl_mat[[Z]]
       } else {
         PDresultList[[Z]] <- round(pl_mat[[Z]], digits = pn_digits)
       }
@@ -308,7 +308,6 @@ check_transform_positivedefinit <- function(pl_mat,
       if(is.null(pn_ratio) && is.null(pn_eps)){
         if (pb_log)
           rvce_log_info(lgr, 'check_transform_positivedefinit', 'Bending with Schaeffer')
-        
         # Run function makePD2 which is an vectorized version of Schaeffer
         PDresultList[[Z]] <- makePD2(pl_mat[[Z]], pn_digits = pn_digits)
       } else {
@@ -344,5 +343,4 @@ check_transform_positivedefinit <- function(pl_mat,
 
   ### # Result of matrix as list, which is positive definite
   return(PDresultList)
-
 }
