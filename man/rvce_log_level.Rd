@@ -4,8 +4,10 @@
 \alias{rvce_log_level}
 \title{Wrapper to set the level of a logger}
 \usage{
-rvce_log_level(plogger, ps_level = c("DEBUG", "INFO", "WARN", "ERROR",
-  "FATAL"))
+rvce_log_level(
+  plogger,
+  ps_level = c("DEBUG", "INFO", "WARN", "ERROR", "FATAL")
+)
 }
 \arguments{
 \item{plogger}{log4r logger object}

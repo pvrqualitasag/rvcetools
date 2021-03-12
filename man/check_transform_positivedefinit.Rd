@@ -4,9 +4,15 @@
 \alias{check_transform_positivedefinit}
 \title{Bending of a List of Matrices for Different Random Effects}
 \usage{
-check_transform_positivedefinit(pl_mat, pn_ratio = NULL, pn_eps = NULL,
-  pmat_weight = NULL, pn_digits = NULL, pb_log = FALSE,
-  plogger = NULL)
+check_transform_positivedefinit(
+  pl_mat,
+  pn_ratio = NULL,
+  pn_eps = NULL,
+  pmat_weight = NULL,
+  pn_digits = NULL,
+  pb_log = FALSE,
+  plogger = NULL
+)
 }
 \arguments{
 \item{pl_mat}{list of input matrices which are bent if necessary}

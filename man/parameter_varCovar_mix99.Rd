@@ -4,10 +4,17 @@
 \alias{parameter_varCovar_mix99}
 \title{Parameter File for Mix99}
 \usage{
-parameter_varCovar_mix99(ps_input_file, ps_output_file,
-  ps_raw_output_file = NULL, pn_ratio = NULL, pn_eps = NULL,
-  pmat_weight = NULL, pn_digits = NULL, pb_log = FALSE,
-  plogger = NULL)
+parameter_varCovar_mix99(
+  ps_input_file,
+  ps_output_file,
+  ps_raw_output_file = NULL,
+  pn_ratio = NULL,
+  pn_eps = NULL,
+  pmat_weight = NULL,
+  pn_digits = NULL,
+  pb_log = FALSE,
+  plogger = NULL
+)
 }
 \arguments{
 \item{ps_input_file}{input csv-file}

@@ -4,8 +4,13 @@
 \alias{make_pd_weight}
 \title{Weighted Bending of a Matrix}
 \usage{
-make_pd_weight(A, pmat_weight = matrix(1, nrow = nrow(A), ncol =
-  ncol(A)), pn_eps = 1e-04, pn_max_iter = 1e+06, pn_digits = NULL)
+make_pd_weight(
+  A,
+  pmat_weight = matrix(1, nrow = nrow(A), ncol = ncol(A)),
+  pn_eps = 1e-04,
+  pn_max_iter = 1e+06,
+  pn_digits = NULL
+)
 }
 \arguments{
 \item{A}{input matrix}

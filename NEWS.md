@@ -1,3 +1,6 @@
+## rvcetools 0.0.7
+* Implement the function solving_errorFromMiX99_VCnotPD. 
+
 ## rvcetools 0.0.6
 
 * Remove redundant function arguments with respect to specifying which bending method should be used
