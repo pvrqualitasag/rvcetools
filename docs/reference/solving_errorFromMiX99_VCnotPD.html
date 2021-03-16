@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parameter File for Mix99 — parameter_varCovar_mix99 • rvcetools</title>
+<title>Solving Message "VC matrix non positive definite" from MiX99 — solving_errorFromMiX99_VCnotPD • rvcetools</title>
 
 
 <!-- jquery -->
@@ -39,17 +39,10 @@
 
 
 
-<meta property="og:title" content="Parameter File for Mix99 — parameter_varCovar_mix99" />
-<meta property="og:description" content="Read csv-file of the variance component estimates and construct
-a matrix with this estimates by parts. This matrix is checked if it is
-positive definite or not. If this matrix is not positive definite, 2
-functions may be called. If you put the paramter psOptionRatio = FALSE,
-makePD2() is called . For the parameter psOptionRatio = TRUE the function
-make_pd_rat_ev() is called. The difference is, that with make_pd_rat_ev() you
-have the option to whish a maximum ratio between largest and smallest
-eigenvalue.
-The software mix99 need a paramter-File with the variance and covariance. So
-this function is building this paramter-file." />
+<meta property="og:title" content="Solving Message "VC matrix non positive definite" from MiX99 — solving_errorFromMiX99_VCnotPD" />
+<meta property="og:description" content="In the software MiX99 of Luke can the message &quot;VC matrix non positive definite&quot; poping up.
+To solve this issue, the VC file non positive definite can be used as input and
+a solution will be proposed as output file." />
 
 
 
@@ -138,34 +131,24 @@ this function is building this paramter-file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parameter File for Mix99</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/CreateVarCovarMix99.R'><code>R/CreateVarCovarMix99.R</code></a></small>
-    <div class="hidden name"><code>parameter_varCovar_mix99.Rd</code></div>
+    <h1>Solving Message "VC matrix non positive definite" from MiX99</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/SolvingErrorFromMiX99.R'><code>R/SolvingErrorFromMiX99.R</code></a></small>
+    <div class="hidden name"><code>solving_errorFromMiX99_VCnotPD.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read csv-file of the variance component estimates and construct
-a matrix with this estimates by parts. This matrix is checked if it is
-positive definite or not. If this matrix is not positive definite, 2
-functions may be called. If you put the paramter psOptionRatio = FALSE,
-makePD2() is called . For the parameter psOptionRatio = TRUE the function
-make_pd_rat_ev() is called. The difference is, that with make_pd_rat_ev() you
-have the option to whish a maximum ratio between largest and smallest
-eigenvalue.</p>
-<p>The software mix99 need a paramter-File with the variance and covariance. So
-this function is building this paramter-file.</p>
+    <p>In the software MiX99 of Luke can the message "VC matrix non positive definite" poping up.
+To solve this issue, the VC file non positive definite can be used as input and
+a solution will be proposed as output file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parameter_varCovar_mix99</span>(
+    <pre class="usage"><span class='fu'>solving_errorFromMiX99_VCnotPD</span>(
   <span class='no'>ps_input_file</span>,
-  <span class='no'>ps_output_file</span>,
-  <span class='kw'>ps_raw_output_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pn_ratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pmat_weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pb_log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>plogger</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='no'>ps_output_file</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -173,23 +156,15 @@ this function is building this paramter-file.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ps_input_file</th>
-      <td><p>input csv-file</p></td>
-    </tr>
-    <tr>
-      <th>ps_output_file</th>
-      <td><p>output txt-file for the bended (co-)variances</p></td>
-    </tr>
-    <tr>
-      <th>ps_raw_output_file</th>
-      <td><p>output txt-file for the raw (co-)variances</p></td>
+      <td><p>input file with VC in MiX99</p></td>
     </tr>
     <tr>
       <th>pn_ratio</th>
-      <td><p>maximum ratio between largest and smallest eigenvalue, determines whether ratio method is used or not</p></td>
+      <td><p>specified ratio between largest and smallest eigenvalue</p></td>
     </tr>
     <tr>
       <th>pn_eps</th>
-      <td><p>lower limit of smallest eigenvalue</p></td>
+      <td><p>smallest eigenvalue in weighted bending</p></td>
     </tr>
     <tr>
       <th>pmat_weight</th>
@@ -200,31 +175,12 @@ this function is building this paramter-file.</p>
       <td><p>number of digits to be rounded to</p></td>
     </tr>
     <tr>
-      <th>pb_log</th>
-      <td><p>indicator whether logs should be produced</p></td>
-    </tr>
-    <tr>
-      <th>plogger</th>
-      <td><p>log4r logger object</p></td>
+      <th>ps_output_file</th>
+      <td><p>solved file with VC for MiX99</p></td>
     </tr>
     </table>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># use test input csv-file</span>
-<span class='no'>sInputFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>,<span class='st'>"VCE_results.csv"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"rvcetools"</span>)
-<span class='co'># bend matrices using Schaeffer method</span>
-<span class='fu'>parameter_varCovar_mix99</span>(<span class='kw'>ps_input_file</span> <span class='kw'>=</span> <span class='no'>sInputFile</span>, <span class='kw'>ps_output_file</span> <span class='kw'>=</span> <span class='st'>'par_varCovar_mix99_schaeffer.txt'</span>)
-<span class='co'># bend matrices using ratio method</span>
-<span class='fu'>parameter_varCovar_mix99</span>(<span class='kw'>ps_input_file</span>  <span class='kw'>=</span> <span class='no'>sInputFile</span>,
-                         <span class='kw'>ps_output_file</span> <span class='kw'>=</span> <span class='st'>'par_varCovar_mix99_ratio.txt'</span>,
-                         <span class='kw'>pn_ratio</span>       <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='co'># unweighted bending with minimum eigenvalue</span>
-<span class='fu'>parameter_varCovar_mix99</span>(<span class='kw'>ps_input_file</span>  <span class='kw'>=</span> <span class='no'>sInputFile</span>,
-                         <span class='kw'>ps_output_file</span> <span class='kw'>=</span> <span class='st'>'par_varCovar_mix99_unweighted.txt'</span>,
-                         <span class='kw'>pn_eps</span>         <span class='kw'>=</span> <span class='fl'>1e-4</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
