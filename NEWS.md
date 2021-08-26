@@ -1,5 +1,5 @@
 ## rvcetools 0.0.8
-* Implement fonctionalities in build_matrix() for maternal traits
+* Implement fonctionalities in build_matrix() and create_parameter_varCovar_mix99() for maternal traits by an animal model.
 
 ## rvcetools 0.0.7
 * Implement the function solving_errorFromMiX99_VCnotPD. 

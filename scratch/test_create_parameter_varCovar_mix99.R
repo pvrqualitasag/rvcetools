@@ -97,3 +97,80 @@ library(tidyr)
   return(resultList)
 #}
 
+  
+  
+  
+#rvcetools::create_parameter_varCovar_mix99(pl_mat,ps_output_file='mix99_beef_mandant.var',pbLog=FALSE) #! Something wrong -> debugging  
+  
+#  create_parameter_varCovar_mix99 <- function(pl_mat,
+#                                              ps_output_file,
+#                                              pbLog = FALSE){
+    ps_output_file <- 'mix99_beef_mandant.var'
+  
+    # Prepare the different input to build the parameter file
+    vec_randomEffect_name <- names(pl_mat)
+    n_nr_randomEffect <- length(vec_randomEffect_name)
+    
+    ### with maternal effect
+    vec_random_effect_req_Maternal <- c("animal|dam", "residual")
+    ### with only direct effect
+    vec_random_effect_req <- c("animal", "residual")
+    
+    # Check if in inputFile the random effects animal and residual are present
+    if (all(vec_random_effect_req %in% vec_randomEffect_name)){
+      # Get the other random effects
+      vec_random_effects_mand <- setdiff(vec_randomEffect_name, vec_random_effect_req)
+      # Animal and residual should have a specific order in mix99
+      vec_random_effect_order <- c(vec_random_effects_mand, vec_random_effect_req)
+    }else if(all(vec_random_effect_req_Maternal %in% vec_randomEffect_name)){
+      # Get the other random effects
+      vec_random_effects_mand <- setdiff(vec_randomEffect_name, vec_random_effect_req_Maternal)
+      # Animal and residual should have a specific order in mix99
+      vec_random_effect_order <- c(vec_random_effects_mand, vec_random_effect_req_Maternal)
+    }else{
+      stop(" * ERROR: Required random effects animal or animal|dam and residual are not both in list of random effects")
+    }
+    
+    # Check if ps_output_file is existing
+    if (file.exists(ps_output_file))
+      file.remove(ps_output_file)
+    
+ 
+    #Build Variance/Covariance Parameter-File for Mix99
+       vec_trait_name <- rownames(pl_mat[[1]])
+       
+       ### check if maternal trait are available
+       idx_Maternal_trait_name <- grep("_maternal",vec_trait_name)
+       if(!is.null(idx_Maternal_trait_name)){
+         vec_trait_name_Maternal <- vec_trait_name
+         n_nr_trait_Maternal <- length(vec_trait_name_Maternal)
+         
+         vec_trait_name <- vec_trait_name[-idx_Maternal_trait_name]
+         n_nr_trait <- length(vec_trait_name)
+       }else{
+         ### only direct traits
+         n_nr_trait <- dim(pl_mat[[1]])[1]
+       }
+       
+       idx_rand_eff <- 1
+       for(Z in vec_random_effect_order){
+         if(Z=="animal|dam"){
+           for(i in 1:n_nr_trait_Maternal){
+             for(j in i:n_nr_trait_Maternal){
+               cat(Z, vec_trait_name_Maternal[i], vec_trait_name_Maternal[j], format(pl_mat[[Z]][[i,j]], scientific = FALSE), file = ps_output_file, append = TRUE)
+               cat("\n", sep= "", file = ps_output_file, append = TRUE)
+             }
+           }
+         }else{
+           for(i in 1:n_nr_trait){
+             for(j in i:n_nr_trait){
+               cat(Z, vec_trait_name[i], vec_trait_name[j], format(pl_mat[[Z]][[i,j]], scientific = FALSE), file = ps_output_file, append = TRUE)
+               cat("\n", sep= "", file = ps_output_file, append = TRUE)
+             }
+           }
+         }
+         
+         idx_rand_eff <- idx_rand_eff + 1
+       }
+    
+#  }
