@@ -1,3 +1,6 @@
+## rvcetools 0.0.8
+* Implement fonctionalities in build_matrix() for maternal traits
+
 ## rvcetools 0.0.7
 * Implement the function solving_errorFromMiX99_VCnotPD. 
 
