@@ -1,3 +1,6 @@
+## rvcetools 0.0.9
+* Implement fonctionalities for a report with build_vce_mat_report().
+
 ## rvcetools 0.0.8
 * Implement fonctionalities in build_matrix() and create_parameter_varCovar_mix99() for maternal traits by an animal model.
 
