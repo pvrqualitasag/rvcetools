@@ -86,7 +86,7 @@ estimate each variance component can be used as a weighting factor." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@ estimate each variance component can be used as a weighting factor." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/pvrqualitasag/rvcetools/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -150,13 +150,13 @@ much as elements with a small weight. The number of observations used to
 estimate each variance component can be used as a weighting factor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_pd_weight</span>(
-  <span class='no'>A</span>,
-  <span class='kw'>pmat_weight</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>A</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>A</span>)),
-  <span class='kw'>pn_eps</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>pn_max_iter</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>,
-  <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>make_pd_weight</span><span class='op'>(</span>
+  <span class='va'>A</span>,
+  pmat_weight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>1</span>, nrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span><span class='op'>)</span>,
+  pn_eps <span class='op'>=</span> <span class='fl'>1e-04</span>,
+  pn_max_iter <span class='op'>=</span> <span class='fl'>1e+06</span>,
+  pn_digits <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,20 +185,19 @@ estimate each variance component can be used as a weighting factor.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># reading input matrix from paper by Jorjani et al 2003</span>
-<span class='no'>sinput_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mat_test_jorjani2003.dat'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'rvcetools'</span>)
-<span class='no'>mat_test_jorjani</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_delim</a></span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='no'>sinput_file</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>' '</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
-#&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  X1 = <span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  X2 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  X3 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  X4 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  X5 = </span><span style='color: #00BB00;'>col_double()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='input'><span class='fu'>make_pd_weight</span>(<span class='no'>mat_test_jorjani</span>)</div><div class='output co'>#&gt;             X1        X2        X3        X4        X5
+<span class='va'>sinput_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mat_test_jorjani2003.dat'</span>, package <span class='op'>=</span> <span class='st'>'rvcetools'</span><span class='op'>)</span>
+<span class='va'>mat_test_jorjani</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_delim</a></span><span class='op'>(</span>file <span class='op'>=</span> <span class='va'>sinput_file</span>, delim <span class='op'>=</span> <span class='st'>' '</span>, col_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>Rows: </span><span style='color: #0000BB;'>5</span> <span style='font-weight: bold;'>Columns: </span><span style='color: #0000BB;'>5</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>Column specification</span> <span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span></span>
+#&gt; <span class='message'><span style='font-weight: bold;'>Delimiter:</span> " "</span>
+#&gt; <span class='message'><span style='color: #00BB00;'>dbl</span> (5): X1, X2, X3, X4, X5</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Use <span style='color: #262626; background-color: #DADADA;'>`spec()`</span> to retrieve the full column specification for this data.</span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Specify the column types or set <span style='color: #262626; background-color: #DADADA;'>`show_col_types = FALSE`</span> to quiet this message.</span></div><div class='input'><span class='fu'>make_pd_weight</span><span class='op'>(</span><span class='va'>mat_test_jorjani</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;             X1        X2        X3        X4        X5
 #&gt; [1,] 103.16918  90.83313  79.47122  44.53731  37.07254
 #&gt; [2,]  90.83313 106.49734  94.18961  74.07039  44.53731
 #&gt; [3,]  79.47122  94.18961 102.31355  94.18961  79.47122
 #&gt; [4,]  44.53731  74.07039  94.18961 106.49734  90.83313
-#&gt; [5,]  37.07254  44.53731  79.47122  90.83313 103.16918</div></span></pre>
+#&gt; [5,]  37.07254  44.53731  79.47122  90.83313 103.16918</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -214,7 +213,7 @@ estimate each variance component can be used as a weighting factor.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

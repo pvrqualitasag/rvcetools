@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bending of a List of Matrices for Different Random Effects — check_transform_positivedefinit • rvcetools</title>
+<title>Build a matrix with VCE results for a report — build_vce_mat_report • rvcetools</title>
 
 
 <!-- jquery -->
@@ -39,19 +39,8 @@
 
 
 
-<meta property="og:title" content="Bending of a List of Matrices for Different Random Effects — check_transform_positivedefinit" />
-<meta property="og:description" content="Given a list of variance-covariance matrices passed by the parameter pl_mat, 
-each of the matrices is checked whether it is positive definite based on the smallest 
-eigenvalue of the matrix. Non-positive definite matrices are bent using a method 
-that is determined based on the parameters given. If the function is called with 
-just the list of matrices, then the Schaeffer method is used using the function 
-makePD2(). Specifing a ratio between largest and smallest eigenvalue using 
-the parameter pn_ratio causes the usage of the ratio method. When specifying 
-a minimal eigenvalue using parameter pn_eps, the method of Jorjani et al. 
-2003 is used. This method exists in a weighted and an unweighted version. Which 
-of the two versions is used is determined by the parameter pmat_weight. When a 
-weight matrix is given via pmat_weight the weighted version is used, otherwise 
-the unweighted version is used." />
+<meta property="og:title" content="Build a matrix with VCE results for a report — build_vce_mat_report" />
+<meta property="og:description" content="Build a matrix with VCE results for a report" />
 
 
 
@@ -140,69 +129,53 @@ the unweighted version is used." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bending of a List of Matrices for Different Random Effects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/MakePD.R'><code>R/MakePD.R</code></a></small>
-    <div class="hidden name"><code>check_transform_positivedefinit.Rd</code></div>
+    <h1>Build a matrix with VCE results for a report</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pvrqualitasag/rvcetools/blob/master/R/Build_Matrix_Report.R'><code>R/Build_Matrix_Report.R</code></a></small>
+    <div class="hidden name"><code>build_vce_mat_report.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Given a list of variance-covariance matrices passed by the parameter <code>pl_mat</code>, 
-each of the matrices is checked whether it is positive definite based on the smallest 
-eigenvalue of the matrix. Non-positive definite matrices are bent using a method 
-that is determined based on the parameters given. If the function is called with 
-just the list of matrices, then the Schaeffer method is used using the function 
-<code><a href='makePD2.html'>makePD2()</a></code>. Specifing a ratio between largest and smallest eigenvalue using 
-the parameter <code>pn_ratio</code> causes the usage of the ratio method. When specifying 
-a minimal eigenvalue using parameter <code>pn_eps</code>, the method of Jorjani et al. 
-2003 is used. This method exists in a weighted and an unweighted version. Which 
-of the two versions is used is determined by the parameter pmat_weight. When a 
-weight matrix is given via <code>pmat_weight</code> the weighted version is used, otherwise 
-the unweighted version is used.</p>
+    <p>Build a matrix with VCE results for a report</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_transform_positivedefinit</span><span class='op'>(</span>
-  <span class='va'>pl_mat</span>,
-  pn_ratio <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pn_eps <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pmat_weight <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pn_digits <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pb_log <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  plogger <span class='op'>=</span> <span class='cn'>NULL</span>
+    <pre class="usage"><span class='fu'>build_vce_mat_report</span><span class='op'>(</span>
+  <span class='va'>ps_random_effect</span>,
+  <span class='va'>ps_offdiagonal</span>,
+  <span class='va'>ps_diagonal</span>,
+  <span class='va'>pvec_trait_name</span>,
+  <span class='va'>pvec_vce_results_file_path</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pl_mat</th>
-      <td><p>list of input matrices which are bent if necessary</p></td>
+      <th>ps_random_effect</th>
+      <td><p>random effect (for exemple: animal, herdyear, residual)</p></td>
     </tr>
     <tr>
-      <th>pn_ratio</th>
-      <td><p>specified ratio between largest and smallest eigenvalue</p></td>
+      <th>ps_offdiagonal</th>
+      <td><p>covariance or genetic_correlation</p></td>
     </tr>
     <tr>
-      <th>pn_eps</th>
-      <td><p>smallest eigenvalue in weighted bending</p></td>
+      <th>ps_diagonal</th>
+      <td><p>variance or heritability</p></td>
     </tr>
     <tr>
-      <th>pmat_weight</th>
-      <td><p>weight matrix for weighted bending</p></td>
-    </tr>
-    <tr>
-      <th>pn_digits</th>
-      <td><p>number of digits to be rounded to</p></td>
-    </tr>
-    <tr>
-      <th>pb_log</th>
-      <td><p>indicator flag for logging</p></td>
-    </tr>
-    <tr>
-      <th>plogger</th>
-      <td><p>log4r object to log to</p></td>
+      <th>pvec_vce_results_file_path</th>
+      <td><p>path to csv-file with vce results</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>mat_randomEffect resulting matrix with vce results from the random effect</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>---
+title: "Building a matrix from VCE results for the report"
+date:  "2021-12-21"
+#' ---</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

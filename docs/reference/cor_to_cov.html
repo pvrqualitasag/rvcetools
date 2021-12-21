@@ -81,7 +81,7 @@ matrix from a matrix of correlations and a vector of variance values." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -113,7 +113,7 @@ matrix from a matrix of correlations and a vector of variance values." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/pvrqualitasag/rvcetools/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -140,7 +140,7 @@ matrix from a matrix of correlations and a vector of variance values." />
 matrix from a matrix of correlations and a vector of variance values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cor_to_cov</span>(<span class='no'>pmat_cor</span>, <span class='no'>pvec_var</span>)</pre>
+    <pre class="usage"><span class='fu'>cor_to_cov</span><span class='op'>(</span><span class='va'>pmat_cor</span>, <span class='va'>pvec_var</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,9 +161,10 @@ matrix from a matrix of correlations and a vector of variance values.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Taken from ?cov2cor: Correlation Matrix of Multivariate sample:</span>
-<span class='no'>Cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cov</a></span>(<span class='no'>longley</span>)
-<span class='no'>Cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span>(<span class='no'>longley</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='fu'>cor_to_cov</span>(<span class='no'>Cl</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='no'>Cv</span>)), <span class='no'>Cv</span>))</div></pre>
+<span class='va'>Cv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cov</a></span><span class='op'>(</span><span class='va'>longley</span><span class='op'>)</span>
+<span class='va'>Cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>longley</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='fu'>cor_to_cov</span><span class='op'>(</span><span class='va'>Cl</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='va'>Cv</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>Cv</span><span class='op'>)</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -179,7 +180,7 @@ matrix from a matrix of correlations and a vector of variance values.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

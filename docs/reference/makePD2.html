@@ -82,7 +82,7 @@ the smallest positive eigen-value." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +114,7 @@ the smallest positive eigen-value." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/pvrqualitasag/rvcetools/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -142,7 +142,7 @@ The negative eigen-values are projected into the range between zero and
 the smallest positive eigen-value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>makePD2</span>(<span class='no'>A</span>, <span class='kw'>pn_digits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>makePD2</span><span class='op'>(</span><span class='va'>A</span>, pn_digits <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,8 +168,9 @@ date:  "`r Sys.Date()`"
 ---</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>G</span><span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>,<span class='fl'>80</span>,<span class='fl'>20</span>,<span class='fl'>6</span>,<span class='fl'>80</span>,<span class='fl'>50</span>,<span class='fl'>10</span>,<span class='fl'>2</span>,<span class='fl'>20</span>,<span class='fl'>10</span>,<span class='fl'>6</span>,<span class='fl'>1</span>,<span class='fl'>6</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>byrow</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>makePD2</span>(<span class='no'>G</span>)</div><div class='output co'>#&gt;            [,1]      [,2]      [,3]     [,4]
+    <pre class="examples"><div class='input'><span class='va'>G</span><span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>,<span class='fl'>80</span>,<span class='fl'>20</span>,<span class='fl'>6</span>,<span class='fl'>80</span>,<span class='fl'>50</span>,<span class='fl'>10</span>,<span class='fl'>2</span>,<span class='fl'>20</span>,<span class='fl'>10</span>,<span class='fl'>6</span>,<span class='fl'>1</span>,<span class='fl'>6</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>4</span>, byrow<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>makePD2</span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            [,1]      [,2]      [,3]     [,4]
 #&gt; [1,] 103.615081 75.499246 18.377481 5.013141
 #&gt; [2,]  75.499246 55.603411 12.020026 3.228634
 #&gt; [3,]  18.377481 12.020026  6.728218 1.442922
@@ -189,7 +190,7 @@ date:  "`r Sys.Date()`"
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

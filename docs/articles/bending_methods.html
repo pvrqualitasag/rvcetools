@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -71,7 +71,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/pvrqualitasag/rvcetools/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -85,13 +85,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="bending_methods_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Bending Methods</h1>
                         <h4 class="author">Peter von Rohr</h4>
             
-            <h4 class="date">2021-03-16</h4>
+            <h4 class="date">2021-12-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/pvrqualitasag/rvcetools/blob/master/vignettes/bending_methods.Rmd"><code>vignettes/bending_methods.Rmd</code></a></small>
       <div class="hidden name"><code>bending_methods.Rmd</code></div>
@@ -100,7 +100,8 @@
 
     
     
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rvcetools</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pvrqualitasag.github.io/rvcetools">rvcetools</a></span><span class="op">)</span></code></pre></div>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
@@ -115,84 +116,94 @@
 <h2 class="hasAnchor">
 <a href="#schaeffer-method" class="anchor"></a>Schaeffer Method</h2>
 <p>Alternatively, the eigenvalues below a certain threshold can be projected above that threshold leaving the ratios of the distances between the eigenvalues constant. This is implemented in the function <code><a href="../reference/makePD2.html">makePD2()</a></code>. Hence for a non-positive definite matrix containing estimation results, the following steps can be used to bend the matrix.</p>
-<div class="sourceCode"><html><body><pre class="r">(<span class="no">mat_npd</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">80</span>, <span class="fl">20</span>, <span class="fl">6</span>, <span class="fl">80</span>, <span class="fl">50</span>, <span class="fl">10</span>, <span class="fl">2</span>, <span class="fl">20</span>, <span class="fl">10</span>, <span class="fl">6</span>, <span class="fl">1</span>, <span class="fl">6</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span>), <span class="kw">nrow</span> <span class="kw">=</span> <span class="fl">4</span>))
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">mat_npd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">80</span>, <span class="fl">20</span>, <span class="fl">6</span>, <span class="fl">80</span>, <span class="fl">50</span>, <span class="fl">10</span>, <span class="fl">2</span>, <span class="fl">20</span>, <span class="fl">10</span>, <span class="fl">6</span>, <span class="fl">1</span>, <span class="fl">6</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2] [,3] [,4]</span>
 <span class="co">#&gt; [1,]  100   80   20    6</span>
 <span class="co">#&gt; [2,]   80   50   10    2</span>
 <span class="co">#&gt; [3,]   20   10    6    1</span>
-<span class="co">#&gt; [4,]    6    2    1    1</span></pre></body></html></div>
+<span class="co">#&gt; [4,]    6    2    1    1</span></code></pre></div>
 <p>Based on the eigenvalues <code>mat_npd</code> is non-positive definite</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span>(<span class="no">mat_npd</span>, <span class="kw">only.values</span> <span class="kw">=</span> <span class="fl">TRUE</span>)$<span class="no">values</span>
-<span class="co">#&gt; [1] 162.1627196   4.1339019   0.9171925 -10.2138140</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">mat_npd</span>, only.values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
+<span class="co">#&gt; [1] 162.1627196   4.1339019   0.9171925 -10.2138140</span></code></pre></div>
 <p>The matrix <code>mat_npd</code> can be bent using</p>
-<div class="sourceCode"><html><body><pre class="r">(<span class="no">mat_bent1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/makePD2.html">makePD2</a></span>(<span class="kw">A</span> <span class="kw">=</span> <span class="no">mat_npd</span>))
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">mat_bent1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makePD2.html">makePD2</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">mat_npd</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;            [,1]      [,2]      [,3]     [,4]</span>
 <span class="co">#&gt; [1,] 103.615081 75.499246 18.377481 5.013141</span>
 <span class="co">#&gt; [2,]  75.499246 55.603411 12.020026 3.228634</span>
 <span class="co">#&gt; [3,]  18.377481 12.020026  6.728218 1.442922</span>
-<span class="co">#&gt; [4,]   5.013141  3.228634  1.442922 1.269397</span></pre></body></html></div>
+<span class="co">#&gt; [4,]   5.013141  3.228634  1.442922 1.269397</span></code></pre></div>
 <p>As can be seen, the eigenvalues of the bent matrix are all positive, but the ratio between the smallest and the largest eigenvalue is big.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span>(<span class="no">mat_bent1</span>, <span class="kw">only.values</span> <span class="kw">=</span> <span class="fl">TRUE</span>)$<span class="no">values</span>
-<span class="co">#&gt; [1] 1.621627e+02 4.133902e+00 9.171925e-01 2.292926e-03</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">mat_bent1</span>, only.values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
+<span class="co">#&gt; [1] 1.621627e+02 4.133902e+00 9.171925e-01 2.292926e-03</span></code></pre></div>
 </div>
 <div id="ratio-of-eigenvalues" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ratio-of-eigenvalues" class="anchor"></a>Ratio of Eigenvalues</h2>
 <p>If this ratio is of any concern, the second bending function <code><a href="../reference/make_pd_rat_ev.html">make_pd_rat_ev()</a></code> can be used which allows for the specification of a maximum ratio between smallest and largest eigenvalue.</p>
-<div class="sourceCode"><html><body><pre class="r">(<span class="no">mat_bent2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_pd_rat_ev.html">make_pd_rat_ev</a></span>(<span class="kw">A</span> <span class="kw">=</span> <span class="no">mat_npd</span>, <span class="kw">pn_max_ratio</span> <span class="kw">=</span> <span class="fl">100</span>))
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">mat_bent2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_pd_rat_ev.html">make_pd_rat_ev</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">mat_npd</span>, pn_max_ratio <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;            [,1]      [,2]       [,3]      [,4]</span>
 <span class="co">#&gt; [1,] 104.195930 74.774864 18.0837820 4.9954987</span>
 <span class="co">#&gt; [2,]  74.774864 56.506986 12.3914112 3.2288164</span>
 <span class="co">#&gt; [3,]  18.083782 12.391411  7.0139582 0.8658603</span>
-<span class="co">#&gt; [4,]   4.995499  3.228816  0.8658603 3.7720338</span></pre></body></html></div>
+<span class="co">#&gt; [4,]   4.995499  3.228816  0.8658603 3.7720338</span></code></pre></div>
 <p>Leading to a much smaller range of eigenvalues as can be seen from the output below.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span>(<span class="no">mat_bent2</span>, <span class="kw">only.values</span> <span class="kw">=</span> <span class="fl">TRUE</span>)$<span class="no">values</span>
-<span class="co">#&gt; [1] 162.162720   4.133902   3.570658   1.621627</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">mat_bent2</span>, only.values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
+<span class="co">#&gt; [1] 162.162720   4.133902   3.570658   1.621627</span></code></pre></div>
 </div>
 <div id="jorjani-method" class="section level2">
 <h2 class="hasAnchor">
 <a href="#jorjani-method" class="anchor"></a>Jorjani Method</h2>
-<p>In Jorjani et al. 2003, the authors described <strong>weighted</strong> and <strong>unweighted</strong> bending. The unweighted version allows the user to specify a minimum eigenvalue. All eigenvalues of the input matrix that are smaller are just set to this minimum. Then the result matrix is reconstructed using the eigenvector-eigenvalue decomposition with the modified eigenvalues. This can be done as follows</p>
-<div class="sourceCode"><html><body><pre class="r">(<span class="no">mat_input</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>,<span class="fl">95</span>,<span class="fl">80</span>,<span class="fl">40</span>,<span class="fl">40</span>,
+<p>In Jorjani et al. 2003, the authors described <strong>weighted</strong> and <strong>unweighted</strong> bending. The unweighted version allows the user to specify a minimum eigenvalue. All eigenvalues of the input matrix that are smaller are just set to this minimum. Then the result matrix is reconstructed using the eigenvector-eigenvalue decomposition with the modified eigenvalues. This can be done as follows</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">mat_input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">95</span>,<span class="fl">80</span>,<span class="fl">40</span>,<span class="fl">40</span>,
                                    <span class="fl">95</span>,<span class="fl">100</span>,<span class="fl">95</span>,<span class="fl">80</span>,<span class="fl">40</span>,
                                    <span class="fl">80</span>,<span class="fl">95</span>,<span class="fl">100</span>,<span class="fl">95</span>,<span class="fl">80</span>,
                                    <span class="fl">40</span>,<span class="fl">80</span>,<span class="fl">95</span>,<span class="fl">100</span>,<span class="fl">95</span>,
-                                   <span class="fl">40</span>,<span class="fl">40</span>,<span class="fl">80</span>,<span class="fl">95</span>,<span class="fl">100</span>), <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">5</span>))
+                                   <span class="fl">40</span>,<span class="fl">40</span>,<span class="fl">80</span>,<span class="fl">95</span>,<span class="fl">100</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span>
 <span class="co">#&gt; [1,]  100   95   80   40   40</span>
 <span class="co">#&gt; [2,]   95  100   95   80   40</span>
 <span class="co">#&gt; [3,]   80   95  100   95   80</span>
 <span class="co">#&gt; [4,]   40   80   95  100   95</span>
 <span class="co">#&gt; [5,]   40   40   80   95  100</span>
-<span class="no">mat_uw</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_pd_weight.html">make_pd_weight</a></span>(<span class="no">mat_input</span>, <span class="kw">pn_eps</span> <span class="kw">=</span> <span class="fl">1e-4</span>)</pre></body></html></div>
+<span class="va">mat_uw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_pd_weight.html">make_pd_weight</a></span><span class="op">(</span><span class="va">mat_input</span>, pn_eps <span class="op">=</span> <span class="fl">1e-4</span><span class="op">)</span></code></pre></div>
 <p>Rounding the result to one decimal digit leads to</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">mat_uw</span>, <span class="kw">digits</span> <span class="kw">=</span> <span class="fl">1</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mat_uw</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt;       [,1]  [,2]  [,3]  [,4]  [,5]</span>
 <span class="co">#&gt; [1,] 103.2  90.8  79.5  44.5  37.1</span>
 <span class="co">#&gt; [2,]  90.8 106.5  94.2  74.1  44.5</span>
 <span class="co">#&gt; [3,]  79.5  94.2 102.3  94.2  79.5</span>
 <span class="co">#&gt; [4,]  44.5  74.1  94.2 106.5  90.8</span>
-<span class="co">#&gt; [5,]  37.1  44.5  79.5  90.8 103.2</span></pre></body></html></div>
+<span class="co">#&gt; [5,]  37.1  44.5  79.5  90.8 103.2</span></code></pre></div>
 <p>In case there are information about the estimation error of the different variance components, these can be specified by a weight matrix which can be specified using</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">mat_weight</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1000</span>,<span class="fl">500</span>,<span class="fl">20</span>,<span class="fl">50</span>,<span class="fl">200</span>,
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mat_weight</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1000</span>,<span class="fl">500</span>,<span class="fl">20</span>,<span class="fl">50</span>,<span class="fl">200</span>,
                                <span class="fl">500</span>, <span class="fl">1000</span>,<span class="fl">500</span>,<span class="fl">5</span>,<span class="fl">50</span>,
                                <span class="fl">20</span>, <span class="fl">500</span>, <span class="fl">1000</span>,<span class="fl">20</span>,<span class="fl">20</span>,
                                <span class="fl">50</span>, <span class="fl">5</span>, <span class="fl">20</span>, <span class="fl">1000</span>,<span class="fl">200</span>,
-                               <span class="fl">200</span>, <span class="fl">50</span>, <span class="fl">20</span>, <span class="fl">200</span>,<span class="fl">1000</span>), <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">5</span>)
-<span class="no">mat_w</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_pd_weight.html">make_pd_weight</a></span>(<span class="no">mat_input</span>, <span class="kw">pn_eps</span> <span class="kw">=</span> <span class="fl">1e-4</span>, <span class="kw">pmat_weight</span> <span class="kw">=</span> <span class="no">mat_weight</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">mat_w</span>, <span class="kw">digits</span> <span class="kw">=</span> <span class="fl">1</span>)
+                               <span class="fl">200</span>, <span class="fl">50</span>, <span class="fl">20</span>, <span class="fl">200</span>,<span class="fl">1000</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
+<span class="va">mat_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_pd_weight.html">make_pd_weight</a></span><span class="op">(</span><span class="va">mat_input</span>, pn_eps <span class="op">=</span> <span class="fl">1e-4</span>, pmat_weight <span class="op">=</span> <span class="va">mat_weight</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mat_w</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt;       [,1]  [,2]  [,3]  [,4]  [,5]</span>
 <span class="co">#&gt; [1,] 100.2  94.5  82.9  43.6  39.2</span>
 <span class="co">#&gt; [2,]  94.5 100.6  94.0  60.0  45.9</span>
 <span class="co">#&gt; [3,]  82.9  94.0 100.7  84.9  73.1</span>
 <span class="co">#&gt; [4,]  43.6  60.0  84.9 100.3  94.2</span>
-<span class="co">#&gt; [5,]  39.2  45.9  73.1  94.2 100.2</span></pre></body></html></div>
+<span class="co">#&gt; [5,]  39.2  45.9  73.1  94.2 100.2</span></code></pre></div>
 </div>
 <div id="alternatives" class="section level2">
 <h2 class="hasAnchor">
 <a href="#alternatives" class="anchor"></a>Alternatives</h2>
 <p>The <code>Matrix</code> package contains the function <code>nearPD</code> which according to its helpfile computes the nearest positive definite matrix. This function allows the specification of many more parameters. But from our experiences this can lead to the large change in a single matrix element. Furthermore, it is unclear whether it is possible to change more than one eigenvalue.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="kw pkg">Matrix</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/nearPD.html">nearPD</a></span>(<span class="no">mat_npd</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/nearPD.html">nearPD</a></span><span class="op">(</span><span class="va">mat_npd</span><span class="op">)</span>
 <span class="co">#&gt; $mat</span>
 <span class="co">#&gt; 4 x 4 Matrix of class "dpoMatrix"</span>
 <span class="co">#&gt;            [,1]      [,2]      [,3]     [,4]</span>
@@ -220,19 +231,20 @@
 <span class="co">#&gt; [1] TRUE</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "nearPD"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "nearPD"</span></code></pre></div>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
-<span class="co">#&gt; R version 3.6.3 (2020-02-29)</span>
-<span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span>
-<span class="co">#&gt; Running under: OS X El Capitan 10.11.6</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; R version 4.0.4 (2021-02-15)</span>
+<span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
+<span class="co">#&gt; Running under: macOS Catalina 10.15.7</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib</span>
-<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib</span>
+<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span>
+<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
 <span class="co">#&gt; [1] de_CH.UTF-8/de_CH.UTF-8/de_CH.UTF-8/C/de_CH.UTF-8/de_CH.UTF-8</span>
@@ -244,22 +256,25 @@
 <span class="co">#&gt; [1] rvcetools_0.0.7</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.4        compiler_3.6.3    pillar_1.4.4      tools_3.6.3      </span>
-<span class="co">#&gt;  [5] digest_0.6.25     lattice_0.20-41   evaluate_0.14     memoise_1.1.0    </span>
-<span class="co">#&gt;  [9] lifecycle_0.2.0   tibble_3.0.1      gtable_0.3.0      pkgconfig_2.0.3  </span>
-<span class="co">#&gt; [13] rlang_0.4.10      Matrix_1.2-18     rstudioapi_0.11   yaml_2.2.1       </span>
-<span class="co">#&gt; [17] pkgdown_1.5.1     xfun_0.13         stringr_1.4.0     dplyr_0.8.5      </span>
-<span class="co">#&gt; [21] knitr_1.28        desc_1.2.0        fs_1.4.1          vctrs_0.3.1      </span>
-<span class="co">#&gt; [25] rprojroot_1.3-2   grid_3.6.3        tidyselect_1.0.0  glue_1.4.1       </span>
-<span class="co">#&gt; [29] R6_2.4.1          rmarkdown_2.3     ggplot2_3.3.1     purrr_0.3.4      </span>
-<span class="co">#&gt; [33] tidyr_1.0.2       magrittr_1.5      backports_1.1.8   scales_1.1.1     </span>
-<span class="co">#&gt; [37] htmltools_0.5.1.1 ellipsis_0.3.1    MASS_7.3-51.6     assertthat_0.2.1 </span>
-<span class="co">#&gt; [41] colorspace_1.4-1  stringi_1.4.6     munsell_0.5.0     crayon_1.3.4</span></pre></body></html></div>
+<span class="co">#&gt;  [1] bslib_0.3.0       compiler_4.0.4    pillar_1.6.3      jquerylib_0.1.4  </span>
+<span class="co">#&gt;  [5] tools_4.0.4       digest_0.6.28     lattice_0.20-45   jsonlite_1.7.2   </span>
+<span class="co">#&gt;  [9] evaluate_0.14     memoise_2.0.0     lifecycle_1.0.1   tibble_3.1.4     </span>
+<span class="co">#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.11      Matrix_1.3-4     </span>
+<span class="co">#&gt; [17] DBI_1.1.1         yaml_2.2.1        pkgdown_1.6.1     xfun_0.26        </span>
+<span class="co">#&gt; [21] fastmap_1.1.0     dplyr_1.0.7       stringr_1.4.0     knitr_1.36       </span>
+<span class="co">#&gt; [25] generics_0.1.0    desc_1.4.0        fs_1.5.0          sass_0.4.0       </span>
+<span class="co">#&gt; [29] vctrs_0.3.8       systemfonts_1.0.2 tidyselect_1.1.1  rprojroot_2.0.2  </span>
+<span class="co">#&gt; [33] grid_4.0.4        glue_1.4.2        R6_2.5.1          textshaping_0.3.5</span>
+<span class="co">#&gt; [37] fansi_0.5.0       rmarkdown_2.11    tidyr_1.1.4       purrr_0.3.4      </span>
+<span class="co">#&gt; [41] ggplot2_3.3.5     magrittr_2.0.1    scales_1.1.1      htmltools_0.5.2  </span>
+<span class="co">#&gt; [45] ellipsis_0.3.2    assertthat_0.2.1  colorspace_2.0-2  ragg_1.1.3       </span>
+<span class="co">#&gt; [49] utf8_1.2.2        stringi_1.7.4     munsell_0.5.0     cachem_1.0.6     </span>
+<span class="co">#&gt; [53] crayon_1.4.1</span></code></pre></div>
 </div>
 <div id="latest-update" class="section level1">
 <h1 class="hasAnchor">
 <a href="#latest-update" class="anchor"></a>Latest Update</h1>
-<p>2021-03-16 10:57:20 (skn)</p>
+<p>2021-12-21 16:37:11 (skn)</p>
 </div>
   </div>
 
@@ -278,7 +293,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
