@@ -47,7 +47,7 @@ build_vce_mat_report <- function(ps_random_effect,
     tbl_vce <- tbl_vce[tbl_vce[["type"]] == ps_diagonal | tbl_vce[["type"]] == ps_offdiagonal,]
   
   # Split traits into trait 1 and trait 2, some records have only 1 trait, which causes `separate()` to issue a warning which is suppressed here
-  suppressWarnings( tbl_vce <- tbl_vce %>% separate(traits, c('trait', 'surrogate'), remove = FALSE) )
+  suppressWarnings( tbl_vce <- tbl_vce %>% separate(traits, c('trait', 'surrogate'), remove = FALSE, sep ="([+])") )
   # if surrogate or trait have NA's, that get info from trait into surrogate column
   tbl_vce[is.na(tbl_vce$surrogate),'surrogate'] <- tbl_vce[is.na(tbl_vce$surrogate),'trait']
   
